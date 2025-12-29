@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# terminal (work in progress)
+src/app/terminal/
+src/components/Terminal.tsx

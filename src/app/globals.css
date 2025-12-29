@@ -1,12 +1,10 @@
 @import "tailwindcss";
 
-/* Put typography + theme tokens in Tailwind's base layer so it can't be overridden unpredictably */
 @layer base {
   :root {
-    --background: #1e1e1e;
+    --background: #131313;
     --foreground: #fafafa;
 
-    /* next/font/google injects these variables via classes on <html> */
     --font-sans: var(--font-inter);
     --font-mono: var(--font-plex-mono);
   }
@@ -15,13 +13,11 @@
     background: var(--background);
     color: var(--foreground);
 
-    /* Deterministic: always try Inter variable first, then fall back */
     font-family: var(--font-sans), system-ui, -apple-system, Segoe UI, Roboto,
       Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   }
 }
 
-/* Tailwind v4 theme mapping (optional, but keep since you started it) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -29,7 +25,6 @@
   --font-mono: var(--font-mono);
 }
 
-/* Local utility classes (not Tailwind config-dependent) */
 .headline {
   font-family: var(--font-sans), system-ui, sans-serif;
   letter-spacing: -0.02em;
@@ -44,7 +39,6 @@
   letter-spacing: 0.08em;
 }
 
-/* Debug helpers */
 .debug-sans {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
@@ -52,4 +46,31 @@
 .debug-mono {
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: transparent !important;
 }
