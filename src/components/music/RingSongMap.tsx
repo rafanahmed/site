@@ -71,6 +71,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
   const [trophyHuntingTypedChars, setTrophyHuntingTypedChars] = useState(0);
   const [rushTypedChars, setRushTypedChars] = useState(0);
   const [testingTypedChars, setTestingTypedChars] = useState(0);
+  const [supernovaTypedChars, setSupernovaTypedChars] = useState(0);
 
   const songsRef = useRef(songs);
   songsRef.current = songs;
@@ -82,6 +83,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
   const trophyHuntingText = "another's love is revealed as a hunt, and i recognize myself not as chosen, but as claimed.";
   const rushText = "to rush is to believe grief obeys distance. but the heart learns sorrow travels faster than flight.";
   const testingText = "recursion. testing. a quiet loop where fear rehearses itself as fate, and i hover between yielding and undoing.";
+  const supernovaText = "a stable star overfed on love until it goes supernova, scattering devotion through a void.";
 
   useEffect(() => {
     if (hoveredNode === "trophy-hunting") {
@@ -139,6 +141,25 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
       setTestingTypedChars(0);
     }
   }, [hoveredNode, testingText]);
+
+  useEffect(() => {
+    if (hoveredNode === "supernova") {
+      setSupernovaTypedChars(0);
+      let charIndex = 0;
+      const interval = setInterval(() => {
+        if (charIndex < supernovaText.length) {
+          charIndex++;
+          setSupernovaTypedChars(charIndex);
+        } else {
+          clearInterval(interval);
+        }
+      }, 30);
+
+      return () => clearInterval(interval);
+    } else {
+      setSupernovaTypedChars(0);
+    }
+  }, [hoveredNode, supernovaText]);
 
   const cx = dimensions.width / 2;
   const cy = dimensions.height / 2;
@@ -421,12 +442,15 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           const isTrophyHunting = hovered.slug === "trophy-hunting";
           const isRush = hovered.slug === "rush";
           const isTesting = hovered.slug === "testing";
+          const isSupernova = hovered.slug === "supernova";
           const displayText = isTrophyHunting
             ? trophyHuntingText.slice(0, trophyHuntingTypedChars)
             : isRush
             ? rushText.slice(0, rushTypedChars)
             : isTesting
             ? testingText.slice(0, testingTypedChars)
+            : isSupernova
+            ? supernovaText.slice(0, supernovaTypedChars)
             : hovered.title;
           const fullTextForWidth = isTrophyHunting
             ? trophyHuntingText
@@ -434,6 +458,8 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
             ? rushText
             : isTesting
             ? testingText
+            : isSupernova
+            ? supernovaText
             : hovered.title;
           
           const padding = 10;

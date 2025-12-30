@@ -70,12 +70,17 @@ export default async function SongPage({ params }: PageProps) {
                 Your browser does not support the audio element.
               </audio>
               {song.credits ? (
-                <p className="text-white/20 text-[7px] uppercase tracking-[0.12em] debug-mono mt-3 text-center whitespace-pre-line leading-relaxed">
+                <p className="text-white/20 text-[9px] uppercase tracking-[0.12em] debug-mono mt-3 text-center whitespace-pre-line leading-relaxed">
                   {song.credits}
                 </p>
               ) : (
-                <p className="text-white/20 text-[8px] uppercase tracking-[0.15em] debug-mono mt-3 text-center">
+                <p className="text-white/20 text-[9px] uppercase tracking-[0.15em] debug-mono mt-3 text-center">
                   src: {song.audioSrc.split("/").pop()}
+                </p>
+              )}
+              {song.releaseDate && (
+                <p className="text-white/20 text-[9px] uppercase tracking-[0.12em] debug-mono mt-3 text-center">
+                  Released on: {song.releaseDate}
                 </p>
               )}
             </div>

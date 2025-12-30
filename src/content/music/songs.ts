@@ -5,6 +5,7 @@ export interface Song {
   lyrics: string;
   ring?: number; // 1–8 for vertical positioning in the structure
   credits?: string; // Production credits
+  releaseDate?: string; // Release date for the song
 }
 
 export const songs: Song[] = [
@@ -57,6 +58,7 @@ If I did redeem myself, would you even want me back?
 Fantasizing how I might attempt to reach back out again
 Or have we passed the terminal phase where we can't be just friends?`,
     ring: 2,
+    releaseDate: "December 29th, 2025",
   },
   {
     title: "Testing",
@@ -84,6 +86,7 @@ Not self aware, couldn't tell I made hell
 And when many years go by, will I be stuck in this shell
 Not so much, oh yeah, how could you tell so well`,
     ring: 4,
+    releaseDate: "December 29th, 2025",
   },
   {
     title: "Trophy Hunting",
@@ -149,6 +152,48 @@ That is me, innocent, with my eyes locked on the gun
 I don't beg, I don't plead, I don't pop 'til I bleed
 On the leaves, now I'm your trophy that fulfills all your needs`,
     ring: 6,
+    releaseDate: "December 29th, 2025",
+  },
+  {
+    title: "Supernova",
+    slug: "supernova",
+    audioSrc: "/audio/supernova5.wav",
+    credits: "Prod. fiftyzero\ninterpolated lyrics from Starset - Telescope\nmix, master, lyrics and vocals by me",
+    lyrics: `You don't want me to move
+Miss my hands all on you
+And we've split up in two
+Can't come back, thats the truth
+Now it's what we could've done
+When we were abundant with love
+I still sing our favorite songs
+I know its time to move on
+
+Ah, I can't, I can't move on
+But surely you'll be proud if I moved along
+Why do I perform for you doing all these songs
+I got so much love to give, star to supernova
+We'll fuse when we collide
+Awaking in the light
+Of all the stars aligned
+
+You don't want me to move
+Miss my hands all on you
+And we've split up in two
+Can't come back, thats the truth
+Now it's what we could've done
+When we were abundant with love
+I still sing our favorite songs
+I know its time to move on
+
+Ah, I can't, I can't move on
+But surely you'll be proud if I moved along
+Why do I perform for you doing all these songs
+I got so much love to give, star to supernova
+We'll fuse when we collide
+Awaking in the light
+Of all the stars aligned`,
+    ring: 3,
+    releaseDate: "December 30th, 2025",
   },
 ];
 
