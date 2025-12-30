@@ -18,6 +18,7 @@ export default function Home() {
               { href: "/projects", label: "Projects" },
               { href: "/blog", label: "Blog" },
               { href: "/music", label: "Music" },
+              { href: "/gallery", label: "Gallery" },
               { href: "/terminal", label: "Terminal", disabled: true },
             ]}
             onComplete={() => setShowSocials(true)}
