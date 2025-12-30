@@ -136,10 +136,11 @@
   font-size: 10px;
 }
 
+.music-surface a:focus,
 .music-surface a:focus-visible,
+.music-surface button:focus,
 .music-surface button:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.35);
-  outline-offset: 3px;
+  outline: none !important;
 }
 
 .music-surface svg text {

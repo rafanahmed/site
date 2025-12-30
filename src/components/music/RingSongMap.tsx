@@ -471,7 +471,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
             <Link
               key={node.id}
               href={`/music/${node.slug}`}
-              className="group outline-none"
+              className="group outline-none focus:outline-none focus-visible:outline-none"
               onFocus={() => setFocusedNode(node.id)}
               onBlur={() => setFocusedNode(null)}
             >
@@ -480,7 +480,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                 onMouseLeave={() => setHoveredNode(null)}
                 className="cursor-pointer"
                 role="button"
-                tabIndex={0}
                 aria-label={`Play ${node.title}`}
               >
                 {isActive && (
