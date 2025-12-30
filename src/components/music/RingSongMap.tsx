@@ -323,12 +323,12 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
 
   if (!mounted) {
     return (
-      <div ref={containerRef} className="w-full h-full min-h-[600px] relative" />
+      <div ref={containerRef} className="w-full h-full min-h-screen relative" />
     );
   }
 
   return (
-    <div ref={containerRef} className="w-full h-full min-h-[600px] relative">
+    <div ref={containerRef} className="w-full h-full min-h-screen relative overflow-hidden">
       <svg
         width={dimensions.width}
         height={dimensions.height}
@@ -437,52 +437,67 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
             : hovered.title;
           
           const padding = 10;
-          const lineHeight = 12;
+          const lineHeight = 14;
           const verticalPadding = 8;
+          const fontSize = dimensions.width < 640 ? 8 : 9;
           
-          const textWidth = estimateTextWidth(fullTextForWidth, 9);
+          const maxBoxWidth = Math.min(dimensions.width - 40, 300);
+          const charWidth = fontSize * 0.6;
+          const charsPerLine = Math.floor((maxBoxWidth - padding * 2) / charWidth);
+          
+          const wrapText = (text: string): string[] => {
+            const words = text.split(" ");
+            const lines: string[] = [];
+            let currentLine = "";
+            
+            for (const word of words) {
+              const testLine = currentLine ? `${currentLine} ${word}` : word;
+              if (testLine.length <= charsPerLine) {
+                currentLine = testLine;
+              } else {
+                if (currentLine) lines.push(currentLine);
+                currentLine = word.length > charsPerLine ? word.substring(0, charsPerLine) : word;
+              }
+            }
+            if (currentLine) lines.push(currentLine);
+            
+            return lines.length > 0 ? lines : [text];
+          };
+          
+          const textLines = wrapText(displayText);
+          const maxLineWidth = Math.max(...textLines.map(line => estimateTextWidth(line, fontSize)));
           
           const minWidth = 120;
-          const boxWidth = Math.max(minWidth, textWidth + padding * 2);
-          const boxHeight = lineHeight + verticalPadding * 2;
+          const boxWidth = Math.min(maxBoxWidth, Math.max(minWidth, maxLineWidth + padding * 2));
+          const boxHeight = (lineHeight * textLines.length) + verticalPadding * 2;
           
-          const tooltipMargin = 40;
+          const tooltipMargin = dimensions.width < 640 ? 15 : 40;
+          const nodeOffset = 20;
           
-          const wouldClipTop = nodeY - boxHeight - 20 < tooltipMargin;
-          const wouldClipBottom = nodeY + boxHeight + 20 > dimensions.height - tooltipMargin;
+          let tooltipX = nodeX < cx ? nodeX - boxWidth - nodeOffset : nodeX + nodeOffset;
+          let tooltipY = nodeY - boxHeight - nodeOffset;
+          let connectFromRight = nodeX < cx;
           
-          const wouldClipLeft = nodeX - boxWidth - 20 < tooltipMargin;
-          const wouldClipRight = nodeX + boxWidth + 20 > dimensions.width - tooltipMargin;
-          
-          let tooltipX: number;
-          let connectFromRight: boolean;
-          
-          if (nodeX < cx) {
-            if (wouldClipLeft) {
-              tooltipX = nodeX + 20;
-              connectFromRight = false;
-            } else {
-              tooltipX = nodeX - boxWidth - 20;
-              connectFromRight = true;
-            }
-          } else {
-            if (wouldClipRight) {
-              tooltipX = nodeX - boxWidth - 20;
-              connectFromRight = true;
-            } else {
-              tooltipX = nodeX + 20;
-              connectFromRight = false;
-            }
+          if (tooltipX < tooltipMargin) {
+            tooltipX = tooltipMargin;
+            connectFromRight = false;
+          }
+          if (tooltipX + boxWidth > dimensions.width - tooltipMargin) {
+            tooltipX = dimensions.width - boxWidth - tooltipMargin;
+            connectFromRight = true;
           }
           
-          const tooltipY = wouldClipTop 
-            ? nodeY + 20
-            : nodeY - boxHeight - 20;
+          if (tooltipY < tooltipMargin) {
+            tooltipY = nodeY + nodeOffset;
+          }
+          if (tooltipY + boxHeight > dimensions.height - tooltipMargin) {
+            tooltipY = dimensions.height - boxHeight - tooltipMargin;
+          }
           
           const connectorEndX = connectFromRight ? tooltipX + boxWidth : tooltipX;
-          const connectorEndY = wouldClipTop 
-            ? tooltipY
-            : tooltipY + boxHeight;
+          const connectorEndY = tooltipY < nodeY 
+            ? tooltipY + boxHeight
+            : tooltipY;
           
           return (
             <g>
@@ -509,14 +524,20 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                 stroke="rgba(255, 255, 255, 0.3)"
                 strokeWidth={0.5}
               />
-              <text
-                x={tooltipX + padding}
-                y={tooltipY + verticalPadding + 10}
-                className="fill-white/70 text-[9px]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                {displayText}
-              </text>
+              {textLines.map((line, index) => (
+                <text
+                  key={index}
+                  x={tooltipX + padding}
+                  y={tooltipY + verticalPadding + 10 + (index * lineHeight)}
+                  className="fill-white/70"
+                  style={{ 
+                    fontFamily: "var(--font-mono)",
+                    fontSize: `${fontSize}px`
+                  }}
+                >
+                  {line}
+                </text>
+              ))}
             </g>
           );
         })()}
@@ -525,7 +546,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           x={cx}
           y={startY + totalHeight + 70}
           textAnchor="middle"
-          className="fill-white/60 text-sm uppercase tracking-[0.3em]"
+          className="fill-white/60 text-xs sm:text-sm uppercase tracking-[0.3em]"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           Music
@@ -608,7 +629,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   textAnchor={labelPos.anchor}
                   dominantBaseline="middle"
                   className={`
-                    text-[9px] uppercase tracking-widest
+                    text-[8px] sm:text-[9px] uppercase tracking-widest
                     transition-all duration-200 cursor-pointer
                     ${isActive ? "fill-white/90" : "fill-white/50"}
                   `}
