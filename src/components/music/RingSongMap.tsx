@@ -609,7 +609,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   dominantBaseline="middle"
                   className={`
                     text-[9px] uppercase tracking-widest
-                    transition-all duration-200 pointer-events-none
+                    transition-all duration-200 cursor-pointer
                     ${isActive ? "fill-white/90" : "fill-white/50"}
                   `}
                   style={{ fontFamily: "var(--font-mono)" }}
