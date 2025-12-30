@@ -578,6 +578,16 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           Music
         </text>
 
+        <text
+          x={cx}
+          y={startY + totalHeight + 90}
+          textAnchor="middle"
+          className="fill-white/15 text-[7px] sm:text-[8px] uppercase tracking-[0.2em]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Select a node to access a song
+        </text>
+
         {activeNode && nodes.find((n) => n.id === activeNode) && (
           <line
             x1={cx}

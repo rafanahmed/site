@@ -24,12 +24,6 @@ export default function MusicPage() {
       <div className="flex-1 relative w-full h-full overflow-hidden">
         <RingSongMap songs={songs} />
       </div>
-
-      <footer className="absolute bottom-0 left-0 right-0 px-4 sm:px-6 py-3 sm:py-4 z-10">
-        <p className="text-white/15 text-[7px] sm:text-[8px] uppercase tracking-[0.2em] debug-mono text-center">
-          Select a node to access a song
-        </p>
-      </footer>
     </main>
   );
 }
