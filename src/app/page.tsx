@@ -24,7 +24,6 @@ export default function Home() {
           />
         </nav>
 
-        {/* Social Links */}
         <div
           className={`flex items-center justify-center gap-5 transition-opacity duration-700 ${
             showSocials ? "opacity-100" : "opacity-0"

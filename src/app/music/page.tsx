@@ -9,7 +9,6 @@ export const metadata = {
 export default function MusicPage() {
   return (
     <main className="music-surface min-h-screen flex flex-col">
-      {/* Minimal header */}
       <header className="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-10">
         <a
           href="/"
@@ -22,12 +21,10 @@ export default function MusicPage() {
         </span>
       </header>
 
-      {/* Structural diagram */}
       <div className="flex-1 relative">
         <RingSongMap songs={songs} />
       </div>
 
-      {/* Minimal footer */}
       <footer className="absolute bottom-0 left-0 right-0 px-6 py-4 z-10">
         <p className="text-white/15 text-[8px] uppercase tracking-[0.2em] debug-mono text-center">
           Select a node to access a song

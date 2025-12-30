@@ -12,45 +12,40 @@ import type { Song } from "@/content/music/songs";
 
 
 const TUNING = {
-  // Physics
   COLLISION_RADIUS: 20,
   RADIAL_STRENGTH: 0.08,
   VELOCITY_DECAY: 0.5,
   ALPHA_MIN: 0.001,
   FREEZE_THRESHOLD: 0.01,
-  ORBITAL_SPEED: 0.0003, // Radians per frame - very slow orbit
+  ORBITAL_SPEED: 0.0003,
 
-  // Structure
-  ELLIPSE_COUNT: 8, // Number of elliptical rings per level
-  VERTICAL_SPACING: 55, // Space between ellipse levels
-  ELLIPSE_WIDTH_RATIO: 0.85, // Ellipse width as ratio of height
-  BASE_RADIUS: 140, // Base ellipse radius
-  RADIUS_VARIATION: 0.15, // How much rings vary in size
+  ELLIPSE_COUNT: 8,
+  VERTICAL_SPACING: 55,
+  ELLIPSE_WIDTH_RATIO: 0.85,
+  BASE_RADIUS: 140,
+  RADIUS_VARIATION: 0.15,
   
-  // Nodes
   NODE_RADIUS: 4,
   LABEL_OFFSET: 12,
   JITTER_AMOUNT: 15,
   
-  // Grid points
-  GRID_POINT_COUNT: 24, // Points around each ellipse
+  GRID_POINT_COUNT: 24,
 };
 
 interface NodeDatum extends SimulationNodeDatum {
   id: string;
   slug: string;
   title: string;
-  level: number; // Vertical level
-  angle: number; // Current position on ellipse (radians)
+  level: number;
+  angle: number;
   ellipseIndex: number;
-  orbitDirection: number; // 1 or -1 for direction
+  orbitDirection: number;
 }
 
 interface RingSongMapProps {
   songs: Song[];
 }
 
-// Generate grid points around an ellipse
 function getEllipsePoint(
   cx: number,
   cy: number,
@@ -77,7 +72,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
   const songsRef = useRef(songs);
   songsRef.current = songs;
 
-  // Only render on client to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -85,7 +79,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
   const cx = dimensions.width / 2;
   const cy = dimensions.height / 2;
 
-  // Handle resize
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -105,40 +98,33 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     return () => resizeObserver.disconnect();
   }, []);
 
-  // Initialize simulation
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return;
 
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
     
-    // Calculate structure dimensions
     const totalHeight = TUNING.ELLIPSE_COUNT * TUNING.VERTICAL_SPACING;
     const startY = centerY - totalHeight / 2;
 
-    // Create nodes for each song
     const initialNodes: NodeDatum[] = [];
     const rotationOffset = Math.random() * Math.PI * 2;
 
     songsRef.current.forEach((song, songIndex) => {
-      // Distribute songs across different levels
       const level = Math.floor((songIndex / songsRef.current.length) * TUNING.ELLIPSE_COUNT);
       const ellipseIndex = Math.min(level, TUNING.ELLIPSE_COUNT - 1);
       
-      // Position on ellipse
       const baseAngle = (2 * Math.PI * songIndex) / songsRef.current.length + rotationOffset;
       const jitterAngle = (Math.random() - 0.5) * 0.3;
       const angle = baseAngle + jitterAngle;
 
-      // Calculate ellipse for this level
       const levelY = startY + ellipseIndex * TUNING.VERTICAL_SPACING;
       const radiusScale = 1 - (ellipseIndex / TUNING.ELLIPSE_COUNT) * TUNING.RADIUS_VARIATION;
       const rx = TUNING.BASE_RADIUS * radiusScale;
-      const ry = rx * TUNING.ELLIPSE_WIDTH_RATIO * 0.35; // Flatten for perspective
+      const ry = rx * TUNING.ELLIPSE_WIDTH_RATIO * 0.35;
 
       const pos = getEllipsePoint(centerX, levelY, rx, ry, angle);
 
-      // Alternate orbit direction for visual interest
       const orbitDirection = songIndex % 2 === 0 ? 1 : -1;
 
       initialNodes.push({
@@ -158,14 +144,12 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
 
     if (initialNodes.length === 0) return;
 
-    // Cleanup existing simulation
     if (simulationRef.current) simulationRef.current.stop();
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
 
-    // Create simulation with gentle forces
     const simulation = forceSimulation<NodeDatum>(initialNodes)
       .force("collide", forceCollide<NodeDatum>(TUNING.COLLISION_RADIUS).strength(0.6))
       .velocityDecay(TUNING.VELOCITY_DECAY)
@@ -174,7 +158,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     simulationRef.current = simulation;
     setNodes([...initialNodes]);
 
-    // Custom elliptical constraint force with orbital motion
     const applyEllipseForce = () => {
       const totalHeight = TUNING.ELLIPSE_COUNT * TUNING.VERTICAL_SPACING;
       const startY = centerY - totalHeight / 2;
@@ -185,23 +168,19 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
         const rx = TUNING.BASE_RADIUS * radiusScale;
         const ry = rx * TUNING.ELLIPSE_WIDTH_RATIO * 0.35;
 
-        // Advance the node's angle for orbital motion
         node.angle = (node.angle + TUNING.ORBITAL_SPEED * node.orbitDirection) % (Math.PI * 2);
 
-        // Calculate target position on ellipse based on updated angle
         const targetX = centerX + rx * Math.cos(node.angle);
         const targetY = levelY + ry * Math.sin(node.angle);
 
-        // Move node toward target position
         const k = TUNING.RADIAL_STRENGTH;
         node.vx = (node.vx ?? 0) + (targetX - (node.x ?? centerX)) * k;
         node.vy = (node.vy ?? 0) + (targetY - (node.y ?? levelY)) * k * 2;
       });
     };
 
-    // Animation loop - runs continuously for orbital motion
     let lastUpdate = 0;
-    const frameInterval = 1000 / 30; // 30 fps for smooth but efficient animation
+    const frameInterval = 1000 / 30;
     let isRunning = true;
 
     const tick = () => {
@@ -210,11 +189,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
       const now = performance.now();
       if (now - lastUpdate >= frameInterval) {
         lastUpdate = now;
-        
-        // Apply orbital motion and ellipse constraint
         applyEllipseForce();
-        
-        // Update React state with current positions
         setNodes([...simulation.nodes()]);
       }
 
@@ -237,11 +212,9 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     };
   }, [dimensions.width, dimensions.height]);
 
-  // Calculate structure for rendering
   const totalHeight = TUNING.ELLIPSE_COUNT * TUNING.VERTICAL_SPACING;
   const startY = cy - totalHeight / 2;
 
-  // Generate ellipses data
   const ellipses = Array.from({ length: TUNING.ELLIPSE_COUNT }, (_, i) => {
     const levelY = startY + i * TUNING.VERTICAL_SPACING;
     const radiusScale = 1 - (i / TUNING.ELLIPSE_COUNT) * TUNING.RADIUS_VARIATION;
@@ -250,7 +223,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     return { cx, cy: levelY, rx, ry, index: i };
   });
 
-  // Generate grid points for each ellipse
   const gridPoints = ellipses.flatMap((ellipse) => {
     return Array.from({ length: TUNING.GRID_POINT_COUNT }, (_, i) => {
       const angle = (2 * Math.PI * i) / TUNING.GRID_POINT_COUNT;
@@ -259,7 +231,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     });
   });
 
-  // Generate vertical axis lines
   const verticalLines = Array.from({ length: 8 }, (_, i) => {
     const angle = (2 * Math.PI * i) / 8;
     const topEllipse = ellipses[0];
@@ -274,7 +245,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
 
   const activeNode = hoveredNode || focusedNode;
 
-  // Get label position
   const getLabelPosition = (node: NodeDatum) => {
     const ellipse = ellipses[node.ellipseIndex];
     if (!ellipse) return { x: node.x ?? 0, y: node.y ?? 0, anchor: "start" as const };
@@ -287,7 +257,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     };
   };
 
-  // Don't render SVG content until mounted to avoid hydration mismatch
   if (!mounted) {
     return (
       <div ref={containerRef} className="w-full h-full min-h-[600px] relative" />
@@ -304,7 +273,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
         aria-label="Structural music diagram"
       >
         <defs>
-          {/* Glow filter */}
           <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
             <feGaussianBlur stdDeviation="2.5" result="blur" />
             <feMerge>
@@ -314,7 +282,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           </filter>
         </defs>
 
-        {/* Central vertical axis */}
         <line
           x1={cx}
           y1={startY - 40}
@@ -324,7 +291,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           strokeWidth={0.5}
         />
 
-        {/* Vertical structural lines */}
         {verticalLines.map((line, i) => (
           line && (
             <line
@@ -339,7 +305,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           )
         ))}
 
-        {/* Elliptical rings */}
         {ellipses.map((ellipse) => (
           <ellipse
             key={`ellipse-${ellipse.index}`}
@@ -353,7 +318,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           />
         ))}
 
-        {/* Grid points (small dots around ellipses) */}
         {gridPoints.map((point, i) => (
           <circle
             key={`grid-${i}`}
@@ -364,7 +328,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           />
         ))}
 
-        {/* Grid point numbers (sparse) */}
         {gridPoints
           .filter((_, i) => i % 3 === 0)
           .map((point, i) => (
@@ -380,55 +343,69 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
             </text>
           ))}
 
-        {/* Hover tooltip annotation box */}
         {activeNode && nodes.find((n) => n.id === activeNode) && (() => {
           const hovered = nodes.find((n) => n.id === activeNode)!;
           const nodeX = hovered.x ?? cx;
           const nodeY = hovered.y ?? cy;
           
-          // Calculate text dimensions (monospace font estimation)
-          // IBM Plex Mono character widths: 9px ≈ 5.4px/char, 8px ≈ 4.8px/char, 7px ≈ 4.2px/char
           const estimateTextWidth = (text: string, fontSize: number): number => {
-            // More accurate monospace estimation: fontSize * 0.6 for most chars
-            // Add extra for wider characters (M, W, etc.)
             const baseCharWidth = fontSize * 0.6;
             const wideChars = (text.match(/[MW@]/g) || []).length;
             return text.length * baseCharWidth + wideChars * (fontSize * 0.2);
           };
           
-          const line1 = "Node Classification";
-          const line2 = `Temporal Index: ${hovered.ellipseIndex + 1}`;
-          const line3 = `Spatial Coordinate: ${hovered.title}`;
+          const customText = hovered.title;
           
-          const padding = 10; // Horizontal padding
-          const lineHeight = 12; // Vertical spacing between lines
-          const verticalPadding = 8; // Top and bottom padding
+          const padding = 10;
+          const lineHeight = 12;
+          const verticalPadding = 8;
           
-          const line1Width = estimateTextWidth(line1, 9);
-          const line2Width = estimateTextWidth(line2, 8);
-          const line3Width = estimateTextWidth(line3, 7);
+          const textWidth = estimateTextWidth(customText, 9);
           
-          // Box width is max text width + padding, with minimum width
           const minWidth = 120;
-          const boxWidth = Math.max(minWidth, Math.max(line1Width, line2Width, line3Width) + padding * 2);
-          // Box height is based on number of lines
-          const boxHeight = (lineHeight * 3) + verticalPadding * 2;
+          const boxWidth = Math.max(minWidth, textWidth + padding * 2);
+          const boxHeight = lineHeight + verticalPadding * 2;
           
-          // Determine tooltip position (prefer top-left or top-right quadrant)
-          const isLeft = nodeX < cx;
-          const isTop = nodeY < cy;
+          const tooltipMargin = 40;
           
-          // Position tooltip in upper quadrant opposite to node
-          const tooltipX = isLeft ? nodeX - boxWidth - 20 : nodeX + 20;
-          const tooltipY = isTop ? nodeY - boxHeight - 20 : nodeY - boxHeight - 20;
+          const wouldClipTop = nodeY - boxHeight - 20 < tooltipMargin;
+          const wouldClipBottom = nodeY + boxHeight + 20 > dimensions.height - tooltipMargin;
           
-          // Connector line endpoint (edge of tooltip box)
-          const connectorEndX = isLeft ? tooltipX + boxWidth : tooltipX;
-          const connectorEndY = tooltipY + (isTop ? boxHeight : boxHeight);
+          const wouldClipLeft = nodeX - boxWidth - 20 < tooltipMargin;
+          const wouldClipRight = nodeX + boxWidth + 20 > dimensions.width - tooltipMargin;
+          
+          let tooltipX: number;
+          let connectFromRight: boolean;
+          
+          if (nodeX < cx) {
+            if (wouldClipLeft) {
+              tooltipX = nodeX + 20;
+              connectFromRight = false;
+            } else {
+              tooltipX = nodeX - boxWidth - 20;
+              connectFromRight = true;
+            }
+          } else {
+            if (wouldClipRight) {
+              tooltipX = nodeX - boxWidth - 20;
+              connectFromRight = true;
+            } else {
+              tooltipX = nodeX + 20;
+              connectFromRight = false;
+            }
+          }
+          
+          const tooltipY = wouldClipTop 
+            ? nodeY + 20
+            : nodeY - boxHeight - 20;
+          
+          const connectorEndX = connectFromRight ? tooltipX + boxWidth : tooltipX;
+          const connectorEndY = wouldClipTop 
+            ? tooltipY
+            : tooltipY + boxHeight;
           
           return (
             <g>
-              {/* Connector line */}
               <line
                 x1={nodeX}
                 y1={nodeY}
@@ -437,14 +414,12 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                 stroke="rgba(255, 255, 255, 0.2)"
                 strokeWidth={0.5}
               />
-              {/* Connector endpoint dot */}
               <circle
                 cx={connectorEndX}
                 cy={connectorEndY}
                 r={2}
                 fill="rgba(255, 255, 255, 0.3)"
               />
-              {/* Tooltip box */}
               <rect
                 x={tooltipX}
                 y={tooltipY}
@@ -460,29 +435,12 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                 className="fill-white/70 text-[9px]"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                {line1}
-              </text>
-              <text
-                x={tooltipX + padding}
-                y={tooltipY + verticalPadding + 10 + lineHeight}
-                className="fill-white/50 text-[8px]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                {line2}
-              </text>
-              <text
-                x={tooltipX + padding}
-                y={tooltipY + verticalPadding + 10 + lineHeight * 2}
-                className="fill-white/40 text-[7px]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                {line3}
+                {customText}
               </text>
             </g>
           );
         })()}
 
-        {/* Title at bottom */}
         <text
           x={cx}
           y={startY + totalHeight + 70}
@@ -493,7 +451,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           Music
         </text>
 
-        {/* Radial line to active node */}
         {activeNode && nodes.find((n) => n.id === activeNode) && (
           <line
             x1={cx}
@@ -506,7 +463,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
           />
         )}
 
-        {/* Song nodes */}
         {nodes.map((node) => {
           const isActive = activeNode === node.id;
           const labelPos = getLabelPosition(node);
@@ -527,7 +483,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                 tabIndex={0}
                 aria-label={`Play ${node.title}`}
               >
-                {/* Outer ring for active state */}
                 {isActive && (
                   <circle
                     cx={node.x}
@@ -539,7 +494,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   />
                 )}
 
-                {/* Node circle */}
                 <circle
                   cx={node.x}
                   cy={node.y}
@@ -548,7 +502,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   filter={isActive ? "url(#glow)" : undefined}
                 />
 
-                {/* Small index number */}
                 <text
                   x={(node.x ?? 0) + TUNING.NODE_RADIUS + 3}
                   y={(node.y ?? 0) + 3}
@@ -558,7 +511,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   {node.ellipseIndex + 1}
                 </text>
 
-                {/* Focus indicator */}
                 {focusedNode === node.id && (
                   <circle
                     cx={node.x}
@@ -571,7 +523,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   />
                 )}
 
-                {/* Node label */}
                 <text
                   x={labelPos.x}
                   y={labelPos.y}
@@ -587,7 +538,6 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                   {node.title}
                 </text>
 
-                {/* Decorative brackets for active */}
                 {isActive && (
                   <>
                     <text

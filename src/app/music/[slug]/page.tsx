@@ -34,7 +34,6 @@ export default async function SongPage({ params }: PageProps) {
 
   return (
     <main className="music-surface min-h-screen flex flex-col">
-      {/* Header */}
       <header className="flex items-center px-6 py-4 border-b border-white/3">
         <Link
           href="/music"
@@ -44,10 +43,8 @@ export default async function SongPage({ params }: PageProps) {
         </Link>
       </header>
 
-      {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-lg space-y-10">
-          {/* Title block */}
           <div className="text-center space-y-3">
             <div className="flex items-center justify-center gap-3 text-white/20 text-[9px] uppercase tracking-[0.3em] debug-mono">
               <span className="w-8 h-px bg-white/10" />
@@ -59,9 +56,7 @@ export default async function SongPage({ params }: PageProps) {
             </h1>
           </div>
 
-          {/* Audio Player */}
           <div className="relative">
-            {/* Decorative frame */}
             <div className="absolute -inset-3 border border-white/4 pointer-events-none" />
             <div className="absolute -inset-1 border border-white/8 pointer-events-none" />
             
@@ -86,7 +81,6 @@ export default async function SongPage({ params }: PageProps) {
             </div>
           </div>
 
-          {/* Lyrics section */}
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <div className="h-px flex-1 bg-white/4" />
@@ -97,7 +91,6 @@ export default async function SongPage({ params }: PageProps) {
             </div>
 
             <div className="relative">
-              {/* Corner decorations */}
               <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-white/10" />
               <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-white/10" />
               <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-white/10" />
