@@ -68,6 +68,9 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
   const [nodes, setNodes] = useState<NodeDatum[]>([]);
   const [focusedNode, setFocusedNode] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [trophyHuntingTypedChars, setTrophyHuntingTypedChars] = useState(0);
+  const [rushTypedChars, setRushTypedChars] = useState(0);
+  const [testingTypedChars, setTestingTypedChars] = useState(0);
 
   const songsRef = useRef(songs);
   songsRef.current = songs;
@@ -75,6 +78,67 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const trophyHuntingText = "another's love is revealed as a hunt, and i recognize myself not as chosen, but as claimed.";
+  const rushText = "to rush is to believe grief obeys distance. but the heart learns sorrow travels faster than flight.";
+  const testingText = "recursion. testing. a quiet loop where fear rehearses itself as fate, and i hover between yielding and undoing.";
+
+  useEffect(() => {
+    if (hoveredNode === "trophy-hunting") {
+      setTrophyHuntingTypedChars(0);
+      let charIndex = 0;
+      const interval = setInterval(() => {
+        if (charIndex < trophyHuntingText.length) {
+          charIndex++;
+          setTrophyHuntingTypedChars(charIndex);
+        } else {
+          clearInterval(interval);
+        }
+      }, 30);
+
+      return () => clearInterval(interval);
+    } else {
+      setTrophyHuntingTypedChars(0);
+    }
+  }, [hoveredNode, trophyHuntingText]);
+
+  useEffect(() => {
+    if (hoveredNode === "rush") {
+      setRushTypedChars(0);
+      let charIndex = 0;
+      const interval = setInterval(() => {
+        if (charIndex < rushText.length) {
+          charIndex++;
+          setRushTypedChars(charIndex);
+        } else {
+          clearInterval(interval);
+        }
+      }, 30);
+
+      return () => clearInterval(interval);
+    } else {
+      setRushTypedChars(0);
+    }
+  }, [hoveredNode, rushText]);
+
+  useEffect(() => {
+    if (hoveredNode === "testing") {
+      setTestingTypedChars(0);
+      let charIndex = 0;
+      const interval = setInterval(() => {
+        if (charIndex < testingText.length) {
+          charIndex++;
+          setTestingTypedChars(charIndex);
+        } else {
+          clearInterval(interval);
+        }
+      }, 30);
+
+      return () => clearInterval(interval);
+    } else {
+      setTestingTypedChars(0);
+    }
+  }, [hoveredNode, testingText]);
 
   const cx = dimensions.width / 2;
   const cy = dimensions.height / 2;
@@ -354,13 +418,29 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
             return text.length * baseCharWidth + wideChars * (fontSize * 0.2);
           };
           
-          const customText = hovered.title;
+          const isTrophyHunting = hovered.slug === "trophy-hunting";
+          const isRush = hovered.slug === "rush";
+          const isTesting = hovered.slug === "testing";
+          const displayText = isTrophyHunting
+            ? trophyHuntingText.slice(0, trophyHuntingTypedChars)
+            : isRush
+            ? rushText.slice(0, rushTypedChars)
+            : isTesting
+            ? testingText.slice(0, testingTypedChars)
+            : hovered.title;
+          const fullTextForWidth = isTrophyHunting
+            ? trophyHuntingText
+            : isRush
+            ? rushText
+            : isTesting
+            ? testingText
+            : hovered.title;
           
           const padding = 10;
           const lineHeight = 12;
           const verticalPadding = 8;
           
-          const textWidth = estimateTextWidth(customText, 9);
+          const textWidth = estimateTextWidth(fullTextForWidth, 9);
           
           const minWidth = 120;
           const boxWidth = Math.max(minWidth, textWidth + padding * 2);
@@ -435,7 +515,7 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
                 className="fill-white/70 text-[9px]"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                {customText}
+                {displayText}
               </text>
             </g>
           );
