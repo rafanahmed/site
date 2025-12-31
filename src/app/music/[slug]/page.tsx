@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSongBySlug, getAllSlugs } from "@/content/music/songs";
+import AudioPlayer from "@/components/music/AudioPlayer";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -61,28 +62,11 @@ export default async function SongPage({ params }: PageProps) {
             <div className="absolute -inset-1 border border-white/8 pointer-events-none" />
             
             <div className="bg-white/1.5 p-5">
-              <audio
-                controls
+              <AudioPlayer
                 src={song.audioSrc}
-                className="w-full h-10 opacity-70"
-                preload="metadata"
-              >
-                Your browser does not support the audio element.
-              </audio>
-              {song.credits ? (
-                <p className="text-white/20 text-[9px] uppercase tracking-[0.12em] debug-mono mt-3 text-center whitespace-pre-line leading-relaxed">
-                  {song.credits}
-                </p>
-              ) : (
-                <p className="text-white/20 text-[9px] uppercase tracking-[0.15em] debug-mono mt-3 text-center">
-                  src: {song.audioSrc.split("/").pop()}
-                </p>
-              )}
-              {song.releaseDate && (
-                <p className="text-white/20 text-[9px] uppercase tracking-[0.12em] debug-mono mt-3 text-center">
-                  Released on: {song.releaseDate}
-                </p>
-              )}
+                credits={song.credits}
+                releaseDate={song.releaseDate}
+              />
             </div>
           </div>
 
