@@ -195,6 +195,63 @@ Of all the stars aligned`,
     ring: 3,
     releaseDate: "December 30th, 2025",
   },
+  {
+    title: "Samsara (City Lights) [DEMO]",
+    slug: "samsara-city-lights-demo",
+    audioSrc: "/audio/Samsara (City Lights) DEMO.wav",
+    credits: "Prod. fiftyzero\nMix, master, lyrics and vocals by me",
+    lyrics: `Take a look in my eyes
+Close yourself deep inside
+Take a look at this city that you grew to despise
+And I hang like a knife
+That you'd put up to fight
+What is with this city
+That makes you just lose your mind
+
+Thought it was over but you just wanted more
+Spilled all my guts and exposed all my lore
+Why you telling me that this shook up to your core
+Maybe we are both tired, our hearts' been up and sore
+Baby lets go out, light a fire, set a blaze
+Go off to the city, live cliche but better days
+It's getting mundane, samsara, be all the same
+There's a better way, but I've yet to know your name 
+Aim for the heart
+Cyclic parts in the dark
+Would this love even start
+Leave my claim, leave a mark
+You said you hate my guts
+Said from your chest, not loud enough
+But when we wake, it's gon' restart
+Crawl for it back, crawl for my heart
+
+And when I come around, by morning time, you'll ask me where we've been
+When I show you pics, from us all outside, you'll ask me if we can do it again 
+
+So let's go escape tonight
+Will you be out by nine
+I'm finna make you mine
+You can make me all alright
+
+Take a look in my eyes
+Close yourself deep inside
+Take a look at this city that you grew to despise
+And I hang like a knife
+That you'd put up to fight
+What is with this city
+That makes you just lose your mind
+
+Your body on mine
+Yearn this every night
+I'm losing my mind
+I am trying be inside
+And so for tonight
+You'll love it this time
+And so for tonight
+You'll love it this time`,
+    ring: 5,
+    releaseDate: "December 31st, 2025",
+  },
 ];
 
 export function getSongBySlug(slug: string): Song | undefined {
