@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import {
   forceSimulation,
@@ -8,7 +8,235 @@ import {
   Simulation,
   SimulationNodeDatum,
 } from "d3-force";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
+import * as THREE from "three";
 import type { Song } from "@/content/music/songs";
+
+function OrbitingNumber({ 
+  radius, 
+  speed, 
+  initialAngle, 
+  number,
+  axis,
+  tilt
+}: { 
+  radius: number; 
+  speed: number; 
+  initialAngle: number;
+  number: string;
+  axis: 'xy' | 'xz' | 'yz';
+  tilt: THREE.Euler;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+  const angleRef = useRef(initialAngle);
+
+  useFrame((_, delta) => {
+    angleRef.current += speed * delta;
+    if (groupRef.current) {
+      const angle = angleRef.current;
+      let x = 0, y = 0, z = 0;
+      if (axis === 'xy') {
+        x = Math.cos(angle) * radius;
+        y = Math.sin(angle) * radius;
+      } else if (axis === 'xz') {
+        x = Math.cos(angle) * radius;
+        z = Math.sin(angle) * radius;
+      } else {
+        y = Math.cos(angle) * radius;
+        z = Math.sin(angle) * radius;
+      }
+      groupRef.current.position.set(x, y, z);
+    }
+  });
+
+  return (
+    <group ref={groupRef} rotation={tilt}>
+      <Html
+        center
+        style={{
+          color: 'rgba(255,255,255,0.06)',
+          fontSize: '8px',
+          fontFamily: 'var(--font-mono), monospace',
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      >
+        {number}
+      </Html>
+    </group>
+  );
+}
+
+function OphanimRings({ position, size, rings, seed }: { position: [number, number, number]; size: number; rings: number; seed: number }) {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  const ringData = useMemo(() => {
+    return Array.from({ length: rings }, (_, i) => ({
+      radius: size * (1 - i * 0.2),
+      rotationAxis: new THREE.Vector3(
+        Math.sin(i * 0.8),
+        Math.cos(i * 0.5),
+        Math.sin(i * 0.3)
+      ).normalize(),
+      speed: 0.15 + i * 0.08,
+      direction: i % 2 === 0 ? 1 : -1,
+      initialRotation: new THREE.Euler(
+        i * Math.PI / 4,
+        i * Math.PI / 3,
+        i * Math.PI / 5
+      ),
+    }));
+  }, [size, rings]);
+
+  const orbitingNumbers = useMemo(() => {
+    const nums: { radius: number; speed: number; angle: number; num: string; axis: 'xy' | 'xz' | 'yz'; tilt: THREE.Euler }[] = [];
+    const axes: ('xy' | 'xz' | 'yz')[] = ['xy', 'xz', 'yz'];
+    
+    for (let i = 0; i < 8; i++) {
+      const pseudoRandom = Math.sin(seed * 1000 + i * 137.5) * 0.5 + 0.5;
+      nums.push({
+        radius: size * (0.5 + pseudoRandom * 0.6),
+        speed: 0.1 + pseudoRandom * 0.15,
+        angle: (i / 8) * Math.PI * 2 + seed,
+        num: Math.floor(pseudoRandom * 100).toString().padStart(2, '0'),
+        axis: axes[i % 3],
+        tilt: new THREE.Euler(
+          pseudoRandom * Math.PI * 0.5,
+          (1 - pseudoRandom) * Math.PI * 0.5,
+          0
+        ),
+      });
+    }
+    return nums;
+  }, [size, seed]);
+
+  return (
+    <group ref={groupRef} position={position}>
+      {ringData.map((ring, idx) => (
+        <RotatingRing
+          key={idx}
+          radius={ring.radius}
+          rotationAxis={ring.rotationAxis}
+          speed={ring.speed}
+          direction={ring.direction}
+          initialRotation={ring.initialRotation}
+          opacity={0.01 - idx * 0.001}
+        />
+      ))}
+      {ringData.slice(0, 2).map((ring, idx) => (
+        <RotatingRing
+          key={`cross-${idx}`}
+          radius={ring.radius * 0.7}
+          rotationAxis={new THREE.Vector3(
+            Math.cos(idx * 1.2),
+            Math.sin(idx * 0.7),
+            Math.cos(idx * 0.9)
+          ).normalize()}
+          speed={ring.speed * 0.7}
+          direction={-ring.direction}
+          initialRotation={new THREE.Euler(
+            Math.PI / 2 + idx * 0.5,
+            idx * Math.PI / 4,
+            0
+          )}
+          opacity={0.006}
+        />
+      ))}
+      {orbitingNumbers.map((orbNum, idx) => (
+        <OrbitingNumber
+          key={`num-${idx}`}
+          radius={orbNum.radius}
+          speed={orbNum.speed}
+          initialAngle={orbNum.angle}
+          number={orbNum.num}
+          axis={orbNum.axis}
+          tilt={orbNum.tilt}
+        />
+      ))}
+    </group>
+  );
+}
+
+function RotatingRing({ 
+  radius, 
+  rotationAxis, 
+  speed, 
+  direction,
+  initialRotation,
+  opacity 
+}: { 
+  radius: number; 
+  rotationAxis: THREE.Vector3; 
+  speed: number;
+  direction: number;
+  initialRotation: THREE.Euler;
+  opacity: number;
+}) {
+  const ringRef = useRef<THREE.Mesh>(null);
+  const quaternion = useMemo(() => new THREE.Quaternion(), []);
+
+  useFrame((_, delta) => {
+    if (ringRef.current) {
+      quaternion.setFromAxisAngle(rotationAxis, speed * direction * delta);
+      ringRef.current.quaternion.premultiply(quaternion);
+    }
+  });
+
+  return (
+    <mesh ref={ringRef} rotation={initialRotation}>
+      <torusGeometry args={[radius, 0.008, 8, 64]} />
+      <meshBasicMaterial 
+        color="#ffffff" 
+        transparent 
+        opacity={opacity}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  );
+}
+
+function SigilScene({ dimensions }: { dimensions: { width: number; height: number } }) {
+  const sigils = useMemo(() => [
+    { position: [-2.5, 1.5, -1] as [number, number, number], size: 1.2, rings: 4, seed: 1 },
+    { position: [2.5, 1.2, -0.5] as [number, number, number], size: 1.0, rings: 3, seed: 2 },
+    { position: [-2.2, -1.5, -0.8] as [number, number, number], size: 1.1, rings: 3, seed: 3 },
+    { position: [2.3, -1.3, -1.2] as [number, number, number], size: 0.9, rings: 3, seed: 4 },
+    { position: [-0.8, 0.5, -1.5] as [number, number, number], size: 0.7, rings: 2, seed: 5 },
+    { position: [0.9, -0.3, -1.3] as [number, number, number], size: 0.8, rings: 2, seed: 6 },
+  ], []);
+
+  return (
+    <>
+      <ambientLight intensity={0.3} />
+      {sigils.map((sigil, idx) => (
+        <OphanimRings
+          key={idx}
+          position={sigil.position}
+          size={sigil.size}
+          rings={sigil.rings}
+          seed={sigil.seed}
+        />
+      ))}
+      
+      {sigils.map((sigil, idx) => 
+        sigils.slice(idx + 1).map((other, otherIdx) => {
+          const points = [
+            new THREE.Vector3(...sigil.position),
+            new THREE.Vector3(...other.position)
+          ];
+          const geometry = new THREE.BufferGeometry().setFromPoints(points);
+          return (
+            <primitive key={`line-${idx}-${otherIdx}`} object={new THREE.Line(
+              geometry,
+              new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.008 })
+            )} />
+          );
+        })
+      )}
+    </>
+  );
+}
 
 
 const TUNING = {
@@ -363,6 +591,15 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
     };
   };
 
+  const [bgOpacity, setBgOpacity] = useState(0);
+  
+  useEffect(() => {
+    if (mounted) {
+      const timer = setTimeout(() => setBgOpacity(1), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [mounted]);
+
   if (!mounted) {
     return (
       <div ref={containerRef} className="w-full h-full min-h-screen relative" />
@@ -371,6 +608,47 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
 
   return (
     <div ref={containerRef} className="w-full h-full min-h-screen relative overflow-hidden">
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: bgOpacity, transition: 'opacity 0.6s ease-out' }}
+      >
+        <Canvas
+          camera={{ position: [0, 0, 6], fov: 50 }}
+          style={{ background: "transparent" }}
+        >
+          <SigilScene dimensions={dimensions} />
+        </Canvas>
+      </div>
+
+      <svg
+        className="absolute inset-0 pointer-events-none"
+        width={dimensions.width}
+        height={dimensions.height}
+      >
+        {Array.from({ length: 12 }, (_, i) => (
+          <line
+            key={`vgrid-${i}`}
+            x1={dimensions.width * (i / 11)}
+            y1={0}
+            x2={dimensions.width * (i / 11)}
+            y2={dimensions.height}
+            stroke="rgba(255,255,255,0.04)"
+            strokeWidth={0.3}
+          />
+        ))}
+        {Array.from({ length: 10 }, (_, i) => (
+          <line
+            key={`hgrid-${i}`}
+            x1={0}
+            y1={dimensions.height * (i / 9)}
+            x2={dimensions.width}
+            y2={dimensions.height * (i / 9)}
+            stroke="rgba(255,255,255,0.04)"
+            strokeWidth={0.3}
+          />
+        ))}
+      </svg>
+
       <svg
         width={dimensions.width}
         height={dimensions.height}
@@ -381,6 +659,13 @@ export default function RingSongMap({ songs }: RingSongMapProps) {
         <defs>
           <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
             <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
