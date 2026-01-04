@@ -275,7 +275,7 @@ export default function AudioPlayer({ src, credits, releaseDate }: AudioPlayerPr
           style={{ display: "block" }}
         />
         
-        <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-6 bg-linear-to-t from-black/60 to-transparent" />
       </div>
       
       <div className="flex items-center gap-3">

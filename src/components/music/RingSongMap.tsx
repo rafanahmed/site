@@ -67,7 +67,7 @@ function OrbitingNumber({
     </group>
   );
 }
-
+// This is a comment to demonstrate how to use a comment in a code block
 function OphanimRings({ position, size, rings, seed }: { position: [number, number, number]; size: number; rings: number; seed: number }) {
   const groupRef = useRef<THREE.Group>(null);
   
