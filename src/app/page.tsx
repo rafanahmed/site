@@ -31,7 +31,7 @@ export default function Home() {
           }`}
         >
           <a
-            href="https://youtube.com/@gnosticboy"
+            href="https://youtube.com/@rowanwasi"
             target="_blank"
             rel="noopener noreferrer"
             className="opacity-60 hover:opacity-100 transition-opacity"
