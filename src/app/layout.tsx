@@ -23,6 +23,10 @@ const spaceMono = Space_Mono({
 });
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
+  icons: {
+    icon: [{ url: "/icon.jpg", type: "image/jpeg" }],
+    apple: [{ url: "/icon.jpg", type: "image/jpeg" }],
+  },
   title: {
     default: siteConfig.title,
     template: "%s — rafan.dev",
