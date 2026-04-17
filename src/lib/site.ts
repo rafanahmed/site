@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "rafan.dev",
   title: "rafan.dev",
   description:
-    "Writing on the mathematics, abstractions, and research behind computer science — by Rafan Ahmed.",
+    "Abstracted computer and financial mathematics enjoyer and practitioner.",
   author: "Rafan Ahmed",
   email: "",
   language: "en-us",
