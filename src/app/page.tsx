@@ -1,3 +1,5 @@
+import ThemeToggle from "@/components/theme-toggle";
+
 // my socials and links
 const links = [
   {name: "GitHub", href: "https://github.com/rafanahmed", icon: GitHubIcon },
@@ -14,30 +16,37 @@ export default function Home() {
         <header className="flex items-center justify-between pb-4">
           <a
             href="/"
-            className="font-mono text-base tracking-[0.2em] text-white/90 transition hover:text-white sm:text-lg"
+            tabIndex={-1}
+            className="font-mono text-base tracking-[0.2em] text-foreground/90 transition hover:text-foreground sm:text-lg"
           >
             rafan.dev
           </a>
-          <nav aria-label="Social links">
-            <ul className="flex items-center gap-4 text-white/55">
-              {links.map(({ name, href, icon: Icon }) => (
-                <li key={name}>
-                  <a
-                    href={href}
-                    aria-label={name}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center transition hover:text-white"
-                  >
-                    <Icon />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+
+          <div className="flex items-center gap-4 text-foreground/60">
+            <ThemeToggle />
+
+            <nav aria-label="Social links">
+              <ul className="flex items-center gap-4">
+                {links.map(({ name, href, icon: Icon }) => (
+                  <li key={name}>
+                    <a
+                      href={href}
+                      aria-label={name}
+                    tabIndex={-1}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center transition hover:text-foreground"
+                    >
+                      <Icon />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </header>
         <section className="pt-16">
-          <p className="max-w-2xl text-base leading-8 text-white/55 sm:text-lg">
+          <p className="max-w-2xl text-base leading-8 text-foreground/55 sm:text-lg">
           </p>
         </section>
       </div>

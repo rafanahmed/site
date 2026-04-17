@@ -1,0 +1,63 @@
+"use client";
+
+import { useEffect, useState } from "react";
+type Theme = "light" | "dark";
+function getPreferredTheme(): Theme {
+  if (typeof window === "undefined") {
+    return "dark";
+  }
+  const storedTheme = window.localStorage.getItem("theme");
+  if (storedTheme === "light" || storedTheme === "dark") {
+    return storedTheme;
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+export default function ThemeToggle() {
+  const [theme, setTheme] = useState<Theme>("dark");
+  useEffect(() => {
+    setTheme(getPreferredTheme());
+  }, []);
+  function toggleTheme() {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    window.localStorage.setItem("theme", nextTheme);
+    setTheme(nextTheme);
+  }
+  const isDark = theme === "dark";
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      tabIndex={-1}
+      className="text-foreground/60 transition hover:text-foreground"
+    >
+      {isDark ? <MoonIcon /> : <SunIcon />}
+    </button>
+  );
+}
+function SunIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+      <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16a1 1 0 0 1 1 1v1.5a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 16.5a1 1 0 0 1 1 1V21a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1ZM4.93 6.34a1 1 0 0 1 1.41 0l1.06 1.06A1 1 0 0 1 5.99 8.8L4.93 7.75a1 1 0 0 1 0-1.41Zm11.67 11.66a1 1 0 0 1 1.41 0l1.06 1.07a1 1 0 0 1-1.41 1.41l-1.06-1.06a1 1 0 0 1 0-1.42ZM18.5 11a1 1 0 1 1 0 2H20a1 1 0 1 1 0-2h-1.5ZM3 11a1 1 0 1 1 0 2H4.5a1 1 0 1 1 0-2H3Zm16.07-4.66a1 1 0 0 1 0 1.41L18 8.8a1 1 0 0 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.42 0ZM7.4 16.6a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 0 1-1.41-1.41L5.99 16.6a1 1 0 0 1 1.41 0Z" />
+    </svg>
+  );
+}
+function MoonIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 12.8A9 9 0 1 1 11.2 3 7.2 7.2 0 0 0 21 12.8Z" />
+    </svg>
+  );
+}
