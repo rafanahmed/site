@@ -61,8 +61,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-plex-mono);
 }
 
 .prose-article {
@@ -76,10 +76,9 @@
   margin-top: 1.25em;
 }
 
-.prose-article h2,
-.prose-article h3,
-.prose-article h4 {
-  font-family: "Times New Roman", Times, serif;
+/* Body section headings: Times. !important overrides .prose-article monospace. */
+.prose-article :is(h1, h2, h3, h4, h5, h6) {
+  font-family: "Times New Roman", Times, serif !important;
   color: var(--foreground);
   letter-spacing: -0.01em;
   line-height: 1.25;

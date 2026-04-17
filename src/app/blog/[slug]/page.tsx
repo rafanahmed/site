@@ -53,10 +53,7 @@ export default async function ArticlePage({
           </Link>
 
           <header className="mt-8 border-b border-foreground/10 pb-8">
-            <h1
-              style={{ fontFamily: '"Times New Roman", Times, serif' }}
-              className="text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl"
-            >
+            <h1 className="font-(family-name:--font-space-mono) text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl">
               {article.title}
             </h1>
             <p className="mt-3 text-base leading-snug text-foreground/70 sm:text-lg">

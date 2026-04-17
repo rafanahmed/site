@@ -39,7 +39,7 @@ Field reference:
 
 | field         | type       | required | notes                                                         |
 | ------------- | ---------- | -------- | ------------------------------------------------------------- |
-| `title`       | string     | yes      | Rendered in Times New Roman on the index and article page.    |
+| `title`       | string     | yes      | Rendered in Space Mono on the index and article page.           |
 | `subtitle`    | string     | yes      | Secondary line under the title. Sans-serif, lighter weight.   |
 | `date`        | ISO date   | yes      | `YYYY-MM-DD`. Controls ordering and the `MAR 18 · 2026` line. |
 | `cover`       | path       | no       | Thumbnail on the blog index and hero on the article page.     |

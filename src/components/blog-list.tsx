@@ -95,12 +95,7 @@ export default function BlogList({ articles }: Props) {
                 className="group flex items-center justify-between gap-6 py-6 sm:gap-10"
               >
                 <div className="min-w-0 flex-1">
-                  <h2
-                    style={{
-                      fontFamily: '"Times New Roman", Times, serif',
-                    }}
-                    className="text-xl font-semibold leading-snug tracking-tight text-foreground transition group-hover:text-foreground sm:text-2xl"
-                  >
+                  <h2 className="font-(family-name:--font-space-mono) text-xl font-bold leading-snug tracking-tight text-foreground transition group-hover:text-foreground sm:text-2xl">
                     {article.title}
                   </h2>
                   <p className="mt-1.5 text-sm leading-snug text-foreground/65 sm:text-[15px]">
