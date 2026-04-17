@@ -10,11 +10,17 @@ export type ArticleFrontmatter = {
 
 export type ArticleMeta = ArticleFrontmatter & {
   slug: string;
+  readingTime: number;
 };
 
 export type Article = ArticleMeta & {
   html: string;
 };
+
+export function formatReadingTime(minutes: number) {
+  const m = Math.max(1, Math.round(minutes));
+  return `${m} MIN READ`;
+}
 
 export function formatArticleDate(iso: string) {
   const d = new Date(`${iso}T00:00:00`);

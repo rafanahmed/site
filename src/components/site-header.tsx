@@ -8,7 +8,11 @@ const links = [
   {name: "YouTube", href: "https://www.youtube.com/@rafawwn", icon: YouTubeIcon},
   {name: "RSS", href: "/rss.xml", icon: RssIcon},
 ];
-const navLinks = [{name: "Blog", href: "/blog"}, {name: "About", href: "/about"}];
+const navLinks = [
+  { name: "Blog", href: "/blog" },
+  { name: "Projects", href: "/projects" },
+  { name: "About", href: "/about" },
+];
 
 export default function SiteHeader() {
   return (

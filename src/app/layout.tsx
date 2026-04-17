@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Mono, Space_Mono } from "next/font/google";
+import { siteConfig, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,8 +22,20 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Personal archive",
+  metadataBase: new URL(siteUrl()),
+  title: {
+    default: siteConfig.title,
+    template: "%s — rafan.dev",
+  },
+  description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": [
+        { url: siteConfig.feedPath, title: siteConfig.title },
+      ],
+    },
+  },
 };
 export const viewport = {
   width: "device-width",

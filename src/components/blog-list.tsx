@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { ArticleMeta } from "@/lib/article-types";
-import { formatArticleDate } from "@/lib/article-types";
+import { formatArticleDate, formatReadingTime } from "@/lib/article-types";
 
 type Props = {
   articles: ArticleMeta[];
@@ -107,7 +107,8 @@ export default function BlogList({ articles }: Props) {
                     {article.subtitle}
                   </p>
                   <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50 sm:text-[11px]">
-                    {formatArticleDate(article.date)}
+                    {formatArticleDate(article.date)} ·{" "}
+                    {formatReadingTime(article.readingTime)}
                   </p>
                 </div>
                 <div

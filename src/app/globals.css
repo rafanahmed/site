@@ -53,8 +53,9 @@
 
 .prose-article {
   color: color-mix(in oklab, var(--foreground) 88%, transparent);
-  font-size: 1rem;
-  line-height: 1.75;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.8;
 }
 
 .prose-article > * + * {

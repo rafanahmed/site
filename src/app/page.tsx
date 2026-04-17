@@ -35,10 +35,10 @@ export default function Home() {
 
             <div className="flex max-w-md flex-col gap-3 sm:max-w-lg sm:gap-4">
               <p className="font-mono text-[19px] font-bold tracking-[0.14em] text-foreground/90 sm:text-[22px] md:text-[26px] lg:text-[30px]">
-                hello! i am rafan (ra-fawn)!
+                hellow! i am rafan (ra-fawn)!
               </p>
               <p className="font-(family-name:--font-space-mono) text-[11px] leading-relaxed tracking-[0.02em] text-foreground/60 sm:text-[12px] md:text-[13px]">
-                interning @ truist, learning machine learning (nlp, comp. vision, rl), data engineering, operations research, computational finance and mathematics. currently working on undergraduate thesis related to reinforcement learning in dynamic environments 
+                interning @ truist & based in charlotte, nc, usa! learning machine learning (nlp, comp. vision, rl), data engineering, operations research, computational finance and mathematics. currently working on undergraduate thesis related to reinforcement learning in dynamic environments 
               </p>
             </div>
           </div>

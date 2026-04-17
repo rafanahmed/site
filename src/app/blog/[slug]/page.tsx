@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import SiteHeader from "@/components/site-header";
 import {
   formatArticleDate,
+  formatReadingTime,
   getAllArticleSlugs,
   getArticleBySlug,
 } from "@/lib/articles";
@@ -61,7 +62,8 @@ export default async function ArticlePage({
               {article.subtitle}
             </p>
             <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
-              {formatArticleDate(article.date)}
+              {formatArticleDate(article.date)} ·{" "}
+              {formatReadingTime(article.readingTime)}
             </p>
           </header>
 
