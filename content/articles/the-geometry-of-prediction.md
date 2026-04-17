@@ -3,7 +3,7 @@ title: "The Geometry of Prediction"
 subtitle: "Forward Propagation Mathematics in Neural Networks"
 date: "2026-03-18"
 cover: "/articles/the-geometry-of-prediction/cnn-topological-visualization.jpg"
-description: "A geometric reading of forward propagation in feed-forward neural networks, from linear classifiers on CIFAR-10 to non-linear activations and hierarchical feature extraction."
+description: "Forward Propagation Mathematics in Neural Networks"
 tags: ["neural-networks", "mathematics", "deep-learning", "computer-vision"]
 draft: false
 ---

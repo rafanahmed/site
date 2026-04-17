@@ -1,7 +1,7 @@
 import SiteHeader from "@/components/site-header";
 
 export const metadata = {
-  title: "Projects — rafan.dev",
+  title: "Projects",
 };
 
 export default function ProjectsPage() {

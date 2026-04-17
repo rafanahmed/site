@@ -1,9 +1,11 @@
 import SiteHeader from "@/components/site-header";
 import BlogList from "@/components/blog-list";
 import { getAllArticles } from "@/lib/articles";
+import { siteConfig } from "@/lib/site";
 
 export const metadata = {
-  title: "Blog — rafan.dev",
+  title: "Blog",
+  description: siteConfig.description,
 };
 
 export default async function BlogPage() {

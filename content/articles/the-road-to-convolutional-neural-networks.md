@@ -3,7 +3,7 @@ title: "The Road to Convolutional Neural Networks"
 subtitle: "An Oversimplified Explanation of Classicial to Deep Learning in Computer Vision"
 date: "2026-03-16"
 cover: "/articles/the-road-to-convolutional-neural-networks/cnn-hero.jpg"
-description: "From hand-crafted feature pipelines to learned convolutional filters — the shift from shallow, human-engineered computer vision to deep, end-to-end CNNs."
+description: "An Oversimplified Explanation of Classicial to Deep Learning in Computer Vision"
 tags: ["computer-vision", "deep-learning", "cnn", "history"]
 draft: false
 ---

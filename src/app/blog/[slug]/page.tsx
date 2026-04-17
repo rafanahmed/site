@@ -22,9 +22,10 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
-  if (!article) return { title: "Not found — rafan.dev" };
+  if (!article) return { title: "Not found" };
   return {
-    title: `${article.title} — rafan.dev`,
+    /* Root layout title.template adds " — rafan.dev"; do not repeat here */
+    title: article.title,
     description: article.description ?? article.subtitle,
   };
 }
