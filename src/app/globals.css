@@ -309,9 +309,9 @@ span.contrib-cell.contrib-l4 {
 }
 
 .contrib-tip {
-  position: absolute;
-  /* Anchor (left/top) is a few px from pointer; float bubble above so it tracks the cursor. */
-  transform: translate(0, calc(-100% - 6px));
+  position: fixed;
+  /* Center on anchor point; float above pointer/cell (portal avoids overflow clipping). */
+  transform: translate(-50%, calc(-100% - 6px));
   pointer-events: none;
   white-space: nowrap;
   background: var(--foreground);
@@ -326,7 +326,7 @@ span.contrib-cell.contrib-l4 {
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   box-shadow: 0 4px 14px color-mix(in oklab, var(--foreground) 28%, transparent);
-  z-index: 20;
+  z-index: 9999;
   animation: contrib-tip-in 90ms ease-out;
 }
 

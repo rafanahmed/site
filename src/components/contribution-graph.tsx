@@ -24,7 +24,7 @@ function GraphInner({
   return (
     <section
       aria-label={`GitHub contributions for @${username}`}
-      className="mx-auto flex w-full max-w-3xl flex-col gap-3 px-1"
+      className="mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-3 px-1"
     >
       {data ? (
         <>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type {
   ContribCalendar,
   ContribLevel,
@@ -32,15 +33,12 @@ const LABEL_TOP = 16;
 type TipState = {
   date: string;
   count: number;
-  x: number;
-  y: number;
+  clientX: number;
+  clientY: number;
 } | null;
 
-/** Horizontal offset from pointer so the bubble does not cover the cursor. */
-const CURSOR_PAD_X = 10;
-
 export default function ContributionGrid({ data }: { data: ContribCalendar }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const tipRef = useRef<HTMLDivElement>(null);
   const [tip, setTip] = useState<TipState>(null);
 
   const weeks = data.weeks;
@@ -48,30 +46,27 @@ export default function ContributionGrid({ data }: { data: ContribCalendar }) {
   const height = LABEL_TOP + 7 * PITCH - GAP;
   const monthLabels = buildMonthLabels(weeks);
 
-  const pointerToLocal = (clientX: number, clientY: number) => {
-    const container = containerRef.current;
-    if (!container) return { x: 0, y: 0 };
-    const contRect = container.getBoundingClientRect();
-    return {
-      x: clientX - contRect.left,
-      y: clientY - contRect.top,
-    };
-  };
-
   const showTipPointer = (
     e: React.PointerEvent<SVGRectElement>,
     date: string,
     count: number,
   ) => {
-    const { x, y } = pointerToLocal(e.clientX, e.clientY);
-    setTip({ date, count, x, y });
+    setTip({
+      date,
+      count,
+      clientX: e.clientX,
+      clientY: e.clientY,
+    });
   };
 
   const moveTipPointer = (e: React.PointerEvent<SVGRectElement>) => {
     setTip((prev) => {
       if (!prev) return prev;
-      const { x, y } = pointerToLocal(e.clientX, e.clientY);
-      return { ...prev, x, y };
+      return {
+        ...prev,
+        clientX: e.clientX,
+        clientY: e.clientY,
+      };
     });
   };
 
@@ -80,27 +75,56 @@ export default function ContributionGrid({ data }: { data: ContribCalendar }) {
     date: string,
     count: number,
   ) => {
-    const container = containerRef.current;
-    if (!container) return;
     const cellRect = e.currentTarget.getBoundingClientRect();
-    const contRect = container.getBoundingClientRect();
     setTip({
       date,
       count,
-      x: cellRect.left - contRect.left + cellRect.width / 2,
-      y: cellRect.top - contRect.top + cellRect.height / 2,
+      clientX: cellRect.left + cellRect.width / 2,
+      clientY: cellRect.top + cellRect.height / 2,
     });
   };
 
+  useLayoutEffect(() => {
+    if (!tip || !tipRef.current) return;
+    const el = tipRef.current;
+    const rect = el.getBoundingClientRect();
+    const half = rect.width / 2;
+    const minLeft = 8 + half;
+    const maxLeft = window.innerWidth - 8 - half;
+    const left = Math.max(minLeft, Math.min(tip.clientX, maxLeft));
+    el.style.left = `${left}px`;
+    el.style.top = `${tip.clientY}px`;
+  }, [tip]);
+
   const hideTip = () => setTip(null);
 
+  const tipPortal =
+    tip &&
+    createPortal(
+      <div
+        ref={tipRef}
+        className="contrib-tip"
+        role="tooltip"
+        style={{
+          left: tip.clientX,
+          top: tip.clientY,
+        }}
+      >
+        <span className="contrib-tip-count">{tip.count}</span>{" "}
+        contribution{tip.count === 1 ? "" : "s"}
+        <span className="contrib-tip-sep"> · </span>
+        <span className="contrib-tip-date">{formatTipDate(tip.date)}</span>
+      </div>,
+      document.body,
+    );
+
   return (
-    <div ref={containerRef} className="relative">
+    <div className="relative w-full min-w-0 max-w-full overflow-x-auto [-webkit-overflow-scrolling:touch] [scrollbar-width:thin]">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         role="img"
         aria-label={`${data.totalContributions} GitHub contributions in the last year`}
-        className="h-auto w-full"
+        className="block h-auto w-full min-w-0"
         onPointerLeave={hideTip}
       >
         {monthLabels.map((ml) => (
@@ -159,21 +183,7 @@ export default function ContributionGrid({ data }: { data: ContribCalendar }) {
         )}
       </svg>
 
-      {tip ? (
-        <div
-          className="contrib-tip"
-          role="tooltip"
-          style={{
-            left: tip.x + CURSOR_PAD_X,
-            top: tip.y,
-          }}
-        >
-          <span className="contrib-tip-count">{tip.count}</span>{" "}
-          contribution{tip.count === 1 ? "" : "s"}
-          <span className="contrib-tip-sep"> · </span>
-          <span className="contrib-tip-date">{formatTipDate(tip.date)}</span>
-        </div>
-      ) : null}
+      {tipPortal}
     </div>
   );
 }
