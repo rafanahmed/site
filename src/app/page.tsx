@@ -40,7 +40,7 @@ export default function Home() {
                 hellow! i am rafan (ra-fawn)!
               </p>
               <p className="font-(family-name:--font-space-mono) text-[11px] leading-relaxed tracking-[0.02em] text-foreground/60 sm:text-[12px] md:text-[13px]">
-                interning @ truist & based in charlotte, nc, usa! learning machine learning (nlp, comp. vision, rl), data engineering, operations research, computational finance and mathematics. currently working on undergraduate thesis related to reinforcement learning in dynamic environments 
+                interning @ truist & based in charlotte, nc, usa! currently learning ml (nlp, comp. vision, rl), data engineering, operations research, computational finance and mathematics. currently working on undergraduate thesis related to reinforcement learning in dynamic environments 
               </p>
             </div>
           </div>
