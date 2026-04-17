@@ -1,4 +1,6 @@
 import SiteHeader from "@/components/site-header";
+import ContributionGraph from "@/components/contribution-graph";
+import { siteConfig } from "@/lib/site";
 
 const fawwwnnnnnnn = String.raw`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀
 ⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⢀⣠⢶⢯⣱⠀
@@ -24,7 +26,7 @@ export default function Home() {
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 pb-16 pt-6 sm:px-8">
         <SiteHeader />
-        <section className="flex flex-1 items-start justify-center pt-6 sm:pt-10">
+        <section className="flex flex-col items-center pt-6 sm:pt-10">
           <div className="flex items-center gap-8 sm:gap-12 md:gap-16 lg:gap-20">
             <pre
               aria-hidden="true"
@@ -41,6 +43,10 @@ export default function Home() {
                 interning @ truist & based in charlotte, nc, usa! learning machine learning (nlp, comp. vision, rl), data engineering, operations research, computational finance and mathematics. currently working on undergraduate thesis related to reinforcement learning in dynamic environments 
               </p>
             </div>
+          </div>
+
+          <div className="mt-14 w-full sm:mt-20">
+            <ContributionGraph username={siteConfig.githubUsername} />
           </div>
         </section>
       </div>

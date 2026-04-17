@@ -10,6 +10,13 @@
 
     --font-sans: var(--font-inter);
     --font-mono: var(--font-plex-mono);
+
+    --contrib-0: #1d1d1d;
+    --contrib-1: #352821;
+    --contrib-2: #5a3a2d;
+    --contrib-3: #8a4f38;
+    --contrib-4: #c2604a;
+    --contrib-border: rgba(255, 255, 255, 0.04);
   }
 
   /* light mode */
@@ -17,6 +24,13 @@
     color-scheme: light;
     --background: #fbeae7;
     --foreground: #3b2a1f;
+
+    --contrib-0: #f2d7d1;
+    --contrib-1: #eab6a9;
+    --contrib-2: #d48672;
+    --contrib-3: #a85a3f;
+    --contrib-4: #6c311a;
+    --contrib-border: rgba(59, 42, 31, 0.08);
   }
 
   body {
@@ -229,3 +243,110 @@
   color: var(--shiki-dark) !important;
 }
 
+.contrib-cell {
+  stroke: var(--contrib-border);
+  stroke-width: 1;
+  shape-rendering: geometricPrecision;
+  transition: fill 150ms ease;
+}
+
+.contrib-l0 {
+  fill: var(--contrib-0);
+}
+.contrib-l1 {
+  fill: var(--contrib-1);
+}
+.contrib-l2 {
+  fill: var(--contrib-2);
+}
+.contrib-l3 {
+  fill: var(--contrib-3);
+}
+.contrib-l4 {
+  fill: var(--contrib-4);
+}
+
+span.contrib-cell {
+  background: var(--contrib-0);
+  border: 1px solid var(--contrib-border);
+  box-sizing: border-box;
+}
+span.contrib-cell.contrib-l0 {
+  background: var(--contrib-0);
+}
+span.contrib-cell.contrib-l1 {
+  background: var(--contrib-1);
+}
+span.contrib-cell.contrib-l2 {
+  background: var(--contrib-2);
+}
+span.contrib-cell.contrib-l3 {
+  background: var(--contrib-3);
+}
+span.contrib-cell.contrib-l4 {
+  background: var(--contrib-4);
+}
+
+.contrib-axis-label {
+  fill: color-mix(in oklab, var(--foreground) 45%, transparent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.contrib-cell:focus {
+  outline: none;
+}
+
+.contrib-cell:focus-visible {
+  stroke: var(--foreground);
+  stroke-width: 1.5;
+}
+
+.contrib-cell:hover {
+  stroke: color-mix(in oklab, var(--foreground) 60%, transparent);
+  stroke-width: 1.2;
+}
+
+.contrib-tip {
+  position: absolute;
+  /* Anchor (left/top) is a few px from pointer; float bubble above so it tracks the cursor. */
+  transform: translate(0, calc(-100% - 6px));
+  pointer-events: none;
+  white-space: nowrap;
+  background: var(--foreground);
+  color: var(--background);
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-family: var(--font-mono), var(--font-space-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 4px 14px color-mix(in oklab, var(--foreground) 28%, transparent);
+  z-index: 20;
+  animation: contrib-tip-in 90ms ease-out;
+}
+
+.contrib-tip-count {
+  font-weight: 600;
+}
+
+.contrib-tip-sep {
+  opacity: 0.55;
+}
+
+.contrib-tip-date {
+  opacity: 0.75;
+}
+
+@keyframes contrib-tip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
