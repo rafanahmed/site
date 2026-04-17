@@ -18,7 +18,7 @@ export default function SiteHeader() {
         tabIndex={-1}
         className="justify-self-start font-mono text-base tracking-[0.2em] text-foreground/90 transition hover:text-foreground sm:text-lg"
       >
-        rafan.dev
+        rafan
       </a>
       <nav aria-label="Primary" className="justify-self-center">
         <ul className="flex items-center gap-5 font-mono text-[11px] tracking-[0.16em] text-foreground/60 sm:gap-6">
