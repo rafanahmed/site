@@ -34,13 +34,21 @@ export default function Home() {
             >
               {fawwwnnnnnnn}
             </pre>
-
             <div className="flex w-full min-w-0 max-w-md flex-col gap-3 sm:max-w-lg sm:gap-4">
               <p className="font-mono text-[17px] font-bold tracking-[0.12em] text-foreground/90 sm:text-[22px] sm:tracking-[0.14em] md:text-[26px] lg:text-[30px]">
                 hellow! i am rafan (ra-fawn)!
               </p>
               <p className="font-(family-name:--font-space-mono) text-[12px] leading-relaxed tracking-[0.02em] text-foreground/60 sm:text-[12px] md:text-[13px]">
-                interning @ truist & based in charlotte, nc, usa! currently learning ml (nlp, comp. vision, rl), data engineering, operations research, computational finance and mathematics. currently working on undergraduate thesis related to reinforcement learning in dynamic environments 
+                interning @ truist & based in charlotte, nc, usa! <br />
+                currently learning:
+                <br />- ml (nlp, comp. vision, rl)
+                <br />- data engineering
+                <br />- operations research
+                <br />- computational finance
+                <br />- mathematics
+                <br />
+                currently working on: 
+                <br />- undergraduate thesis/research related to reinforcement learning in dynamic environments
               </p>
             </div>
           </div>
