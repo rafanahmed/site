@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Space_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,25 +8,27 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
   display: "swap",
 });
-
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
 });
-
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
 export const metadata: Metadata = {
   title: "Home",
   description: "Personal archive",
 };
-
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -37,7 +39,7 @@ export default function RootLayout({
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${inter.variable} ${ibmPlexMono.variable}`}
+      className={`${inter.variable} ${ibmPlexMono.variable} ${spaceMono.variable}`}
     >
       <head>
         <script
