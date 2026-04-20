@@ -1,5 +1,7 @@
 # Article Authoring Guidelines
 
+---
+
 This document is the single source of truth for how articles on `rafan.dev` are
 authored, stored, and rendered. Every blog post must follow it.
 
