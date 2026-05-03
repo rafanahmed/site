@@ -43,9 +43,10 @@ export default function Home() {
                 <br />
                 currently learning:
                 <br />- ml (nlp, rl, mech interp)
-                <br />- mathematics (prob/stats, optimization)
+                <br />- mathematics (prob/stats, linear algebra, optimization)
                 <br />- computational finance
-                <br />- data engineering (ontology, pipelines, quality)
+                <br />- data engineering 
+                <br />- c++, python, sql
                 <br />
                 currently working on:
                 <br />- ai/ml/data engineering for wholesale payment solutions @ truist
