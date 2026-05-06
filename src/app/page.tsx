@@ -42,15 +42,15 @@ export default function Home() {
                 intern @ truist & based in charlotte, nc, usa!
                 <br />
                 currently learning:
-                <br />- ml (nlp, rl, mech interp)
+                <br />- ml (nlp, deep rl)
                 <br />- mathematics (prob/stats, linear algebra, optimization)
                 <br />- computational finance
                 <br />- data engineering 
                 <br />- c++, python, sql
                 <br />
                 currently working on:
-                <br />- ai/ml/data engineering for wholesale payment solutions @ truist
-                <br />- undergraduate thesis/research in rl in stochastic environments
+                <br />- applied ml for payment technologies @ truist
+                <br />- undergraduate thesis/research on rl for continuous action sizing under uncertainty.
               </p>
             </div>
           </div>
