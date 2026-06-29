@@ -43,8 +43,9 @@ export default function Home() {
                 <br />
                 currently learning:
                 <br />- ml (nlp, deep rl)
-                <br />- mathematics 
+                <br />- mathematics
                 <br />- ai security
+                <br />
                 currently working on:
                 <br />- agile delivery automation & ontology @ truist
                 <br />- undergraduate thesis/research on rl for continuous action sizing under uncertainty.
