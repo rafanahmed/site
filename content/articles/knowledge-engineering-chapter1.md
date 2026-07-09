@@ -8,9 +8,6 @@ tags: ["knowledge-engineering", "genai", "data-systems"]
 draft: false
 ---
 
-# Knowledge Engineering - Chapter 1
-#### In Pursuit of Making Human Corpora Legible to Machines
-
 <figure>
   <img
     src="/articles/knowledge-engineering-chapter1/e12ca5f4c733890e90a3bc5651c207c4.jpg"
