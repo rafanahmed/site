@@ -57,7 +57,7 @@ In a contemporary economic sense, this is reflected in the idea of the knowledge
 
 So, whether you are working at a bank, contributing to the first line of defense of a nation’s financial security against domestic and foreign adversaries (this is me), or working at a medical company conducting research and development on proprietary drugs for treatment, knowledge engineering shapes how humans and machines organize information, act on it, and produce meaningful outcomes.
 
-### References:
+## References:
 1. Pluralsight. *[GenAI Data and Knowledge Layer](https://app.pluralsight.com/ilx/video-courses/gen-ai-data-knowledge-layer/course-overview).* Course by Larentiu Raducu, founder of BitHeap.ch.
 2. Debenham, J. *[An Introduction to Knowledge Engineering](https://asolanki.co.in/wp-content/uploads/2019/01/KE-by-Simon.pdf).* Knowledge engineering textbook/chapter PDF.
 3. Palantir. *[Institutional Sovereignty in the Age of AI](https://assets.ctfassets.net/xrfr7uokpv1b/yF0AXklHQd7K3SqKICNTM/e9f9167d1b3c7cce56ab3b8c4cc572da/Palantir_-_Institutional_Sovereignty_in_the_Age_of_AI.pdf).* Palantir report, 2026.
