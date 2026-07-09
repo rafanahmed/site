@@ -21,10 +21,13 @@ draft: false
 
 > ***Disclaimer:*** This article and the subsequent articles in the *Knowledge Engineering* series are based on my compiled notes from various sources, interpretations, and exercises from the Pluralsight course "*GenAI Data and Knowledge Layer"* by Larentiu Raducu, provided to me by Truist Financial Corporation. 
 > 
+>
 > Mathematical notation used throughout the subsequent series of articles is my custom explanatory notation, derived from and influenced by the multitude of sources on everything regarding the handling of GenAI data systems and information layers. 
 > 
+>
 > All informational synthesis, framing, sectioning, and interpretative emphasis are mine, with the technical concepts, implementation demos/code, and references following loosely from the Pluralsight course, alongside my own code, interpretations, and explanations.
 > 
+>
 > I will not intentionally replicate the original course’s order of introducing the concepts mentioned in this article and throughout the series, as my goal is to treat the course as one of the many sources that will provide a backbone for a broader argument and informational framing.
 
 I could start this article and the subsequent articles in this upcoming series by writing:
