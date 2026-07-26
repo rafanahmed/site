@@ -1,10 +1,13 @@
 ---
-title: "Knowledge Engineering - Chapter 1"
-subtitle: "In Pursuit of Making Human Corpora Legible to Machines"
-date: "2026-07-08"
-cover: "/articles/knowledge-engineering-chapter1/e12ca5f4c733890e90a3bc5651c207c4.jpg"
-description: "In Pursuit of Making Human Corpora Legible to Machines"
-tags: ["knowledge-engineering", "genai", "data-systems"]
+title: Knowledge Engineering
+subtitle: In Pursuit of Making Human Corpora Legible to Machines
+date: 2026-07-08
+cover: /articles/knowledge-engineering-chapter1/e12ca5f4c733890e90a3bc5651c207c4.jpg
+description: In Pursuit of Making Human Corpora Legible to Machines
+tags:
+  - knowledge-engineering
+  - genai
+  - data-systems
 draft: false
 ---
 
@@ -19,18 +22,7 @@ draft: false
 </figure>
 
 
-> ***Disclaimer:*** This article and the subsequent articles in the *Knowledge Engineering* series are based on my compiled notes from various sources, interpretations, and exercises from the Pluralsight course "*GenAI Data and Knowledge Layer"* by Larentiu Raducu, provided to me by Truist Financial Corporation. 
-> 
->
-> Mathematical notation used throughout the subsequent series of articles is my custom explanatory notation, derived from and influenced by the multitude of sources on everything regarding the handling of GenAI data systems and information layers. 
-> 
->
-> All informational synthesis, framing, sectioning, and interpretative emphasis are mine, with the technical concepts, implementation demos/code, and references following loosely from the Pluralsight course, alongside my own code, interpretations, and explanations.
-> 
->
-> I will not intentionally replicate the original course’s order of introducing the concepts mentioned in this article and throughout the series, as my goal is to treat the course as one of the many sources that will provide a backbone for a broader argument and informational framing.
-
-I could start this article and the subsequent articles in this upcoming series by writing:
+I could start this article by writing:
 
 *“AI is now everywhere in systems around the world, interacting with and utilizing all sorts of data that affect our enterprises, nations, and personal lives!”*
 
@@ -51,7 +43,7 @@ As with any mathematical process with a large number of moving parts, naturally,
 3. The system should be able to bring the right information back when a user, enterprise, or model requires it.
 4. Scale, reliability, attribution, cost, latency, and domain-specific performance are iteratively engineered into the pipeline itself.
 
-The following series of articles will go over the aspects of human-machine information legibility and the technical layers of making that legibility possible. To end this short chapter, I want to write that for as long as humanity has existed, information and knowledge, and their subsequent engineering, have been the moat in leveraging opportunities to produce desirable outcomes.
+To end this, I want to write that for as long as humanity has existed, information and knowledge, and their subsequent engineering, have been the moat in leveraging opportunities to produce desirable outcomes.
 
 In a contemporary economic sense, this is reflected in the idea of the knowledge economy, in that knowledge, information, innovation, and institutional capacity are central engines of growth and development. In the era of intelligent machines, this is no different. In fact, it is far more crucial, as the scaling of outcomes and decisions that make an impact increases, while these same capabilities are in the hands of your nation’s enterprises and your opponents, too.
 
