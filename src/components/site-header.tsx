@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ThemeToggle from "@/components/theme-toggle";
 
 // links
@@ -16,13 +17,13 @@ const navLinks = [
 export default function SiteHeader() {
   return (
     <header className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-4 pb-4 md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-x-0 md:gap-y-0">
-      <a
+      <Link
         href="/"
         tabIndex={-1}
         className="justify-self-start self-center font-mono text-base tracking-[0.2em] text-foreground/90 transition hover:text-foreground sm:text-lg"
       >
         rafan
-      </a>
+      </Link>
       <nav
         aria-label="Primary"
         className="col-span-2 row-start-2 flex justify-center md:col-span-1 md:col-start-2 md:row-start-1 md:justify-self-center"
@@ -30,13 +31,13 @@ export default function SiteHeader() {
         <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.16em] text-foreground/60 sm:gap-x-6 sm:gap-y-0">
           {navLinks.map(({ name, href }) => (
             <li key={name}>
-              <a
+              <Link
                 href={href}
                 tabIndex={-1}
                 className="inline-block py-1 transition hover:text-foreground"
               >
                 {name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

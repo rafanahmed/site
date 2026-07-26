@@ -2,10 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type {
-  ContribCalendar,
-  ContribLevel,
-} from "@/lib/github-contributions";
+import type { ContribCalendar } from "@/lib/github-contributions";
 
 const MONTH_NAMES = [
   "jan",

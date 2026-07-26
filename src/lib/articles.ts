@@ -80,11 +80,31 @@ function isMarkdownFile(name: string) {
   return name.endsWith(".md") && !name.startsWith("_") && name !== "GUIDELINES.md";
 }
 
+function normalizeArticleDate(value: unknown, slug: string): string {
+  let iso: string;
+
+  if (value instanceof Date) {
+    iso = value.toISOString().slice(0, 10);
+  } else if (typeof value === "string") {
+    iso = value;
+  } else {
+    throw new Error(`Article "${slug}" has an invalid frontmatter date.`);
+  }
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+    throw new Error(
+      `Article "${slug}" has an invalid frontmatter date. Expected YYYY-MM-DD.`,
+    );
+  }
+
+  return iso;
+}
+
 async function readArticleFile(slug: string) {
   const filePath = path.join(ARTICLES_DIR, `${slug}.md`);
   const raw = await fs.readFile(filePath, "utf8");
   const parsed = matter(raw);
-  const data = parsed.data as Partial<ArticleFrontmatter>;
+  const data = parsed.data;
 
   if (!data.title || !data.subtitle || !data.date) {
     throw new Error(
@@ -95,7 +115,7 @@ async function readArticleFile(slug: string) {
   const frontmatter: ArticleFrontmatter = {
     title: data.title,
     subtitle: data.subtitle,
-    date: data.date,
+    date: normalizeArticleDate(data.date, slug),
     cover: data.cover,
     description: data.description,
     tags: data.tags,
