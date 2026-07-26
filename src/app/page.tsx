@@ -39,16 +39,16 @@ export default function Home() {
                 hellow! i am rafan (ra-fawn)!
               </p>
               <p className="font-(family-name:--font-space-mono) text-[12px] leading-relaxed tracking-[0.02em] text-foreground/60 sm:text-[12px] md:text-[13px]">
-                data engineering intern @ truist & based in charlotte, nc, usa!
+                data engineering intern working on agile delivery automation & applied ai @ truist, based in charlotte, nc, usa
                 <br />
-                currently learning:
-                <br />- ml (nlp, deep rl)
-                <br />- mathematics
-                <br />- ai security
-                <br />
-                currently working on:
-                <br />- agile delivery automation & ontology @ truist
-                <br />- undergraduate thesis/research on rl for continuous action sizing under uncertainty.
+                <strong>currently learning:</strong>
+                <ul className="list-disc ml-5">
+                  <li>ml (nlp, rl)</li>
+                  <li>mathematics</li>
+                  <li>security 4 ai </li>
+                  <li>日本語 !!</li>
+                </ul>
+           
               </p>
             </div>
           </div>
