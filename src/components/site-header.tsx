@@ -11,7 +11,7 @@ const links = [
 ];
 const navLinks = [
   { name: "Blog", href: "/blog" },
-  { name: "About", href: "/about" },
+  { name: "Stuff", href: "/about" },
 ];
 
 export default function SiteHeader() {
