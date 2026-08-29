@@ -262,7 +262,14 @@ export default function Home() {
                 <p>
                   my favorite animals are fawns and bunnies! if you like them
                   too, or you are also interested about my work and ai, feel free
-                  to reach out!
+                  to reach out! check out the{" "}
+                  <Link
+                    href="/about"
+                    className="text-foreground underline decoration-foreground/35 underline-offset-4 transition hover:decoration-foreground"
+                  >
+                    stuff
+                  </Link>{" "}
+                  i have done too
                 </p>
                 <LandingPhoto
                   src="/landing/fawn-held.jpg"
