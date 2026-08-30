@@ -4,6 +4,7 @@ subtitle: "An Oversimplified Explanation of Classicial to Deep Learning in Compu
 date: "2026-03-16"
 cover: "/articles/the-road-to-convolutional-neural-networks/cnn-hero.jpg"
 description: "An Oversimplified Explanation of Classicial to Deep Learning in Computer Vision"
+section: archive
 tags: ["computer-vision", "deep-learning", "cnn", "history"]
 draft: false
 ---

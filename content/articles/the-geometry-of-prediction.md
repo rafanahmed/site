@@ -4,6 +4,7 @@ subtitle: "Forward Propagation Mathematics in Neural Networks"
 date: "2026-03-18"
 cover: "/articles/the-geometry-of-prediction/cnn-topological-visualization.jpg"
 description: "Forward Propagation Mathematics in Neural Networks"
+section: archive
 tags: ["neural-networks", "mathematics", "deep-learning", "computer-vision"]
 draft: false
 ---

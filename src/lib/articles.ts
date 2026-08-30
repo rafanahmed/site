@@ -118,6 +118,7 @@ async function readArticleFile(slug: string) {
     date: normalizeArticleDate(data.date, slug),
     cover: data.cover,
     description: data.description,
+    section: data.section,
     tags: data.tags,
     draft: data.draft,
   };

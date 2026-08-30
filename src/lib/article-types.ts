@@ -4,6 +4,7 @@ export type ArticleFrontmatter = {
   date: string;
   cover?: string;
   description?: string;
+  section?: "top" | "archive" | "yap";
   tags?: string[];
   draft?: boolean;
 };

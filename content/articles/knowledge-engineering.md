@@ -4,6 +4,7 @@ subtitle: In Pursuit of Making Human Corpora Legible to Machines
 date: 2026-07-08
 cover: /articles/knowledge-engineering-chapter1/e12ca5f4c733890e90a3bc5651c207c4.jpg
 description: In Pursuit of Making Human Corpora Legible to Machines
+section: archive
 tags:
   - knowledge-engineering
   - genai
