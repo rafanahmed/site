@@ -53,7 +53,7 @@ export default function Home() {
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 pb-16 pt-6 sm:px-8">
         <SiteHeader />
-        <p className="pt-5 font-mono text-[12px] font-bold uppercase leading-relaxed tracking-[0.16em] text-foreground/78 sm:text-[13px]">
+        <p className="pt-5 font-mono text-[18px] font-bold uppercase leading-snug tracking-[0.12em] text-foreground/86 sm:text-[24px] lg:text-[30px]">
           RAFAN AHMED - incoming applied AI @{" "}
           <a
             href="https://www.truist.com/"
@@ -63,7 +63,15 @@ export default function Home() {
           >
             Truist
           </a>{" "}
-          , CS Graduate @ UNC Charlotte
+          , CS Graduate @{" "}
+          <a
+            href="https://www.charlotte.edu/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-foreground/35 underline-offset-4 transition hover:decoration-foreground"
+          >
+            UNC Charlotte
+          </a>
         </p>
         <section className="pt-7 sm:pt-12">
           <div className="grid w-full min-w-0 grid-cols-1 gap-8 lg:grid-cols-[minmax(260px,0.42fr)_minmax(0,1fr)] lg:items-start lg:gap-14">
@@ -216,8 +224,25 @@ export default function Home() {
                   </a>
                   ’s technology leadership development program doing applied ai
                   and leading a technical project with students at my university
-                  writing kernels for tenstorrent’s ai accelerator card —
-                  blackhole p100a — learning alongside them ;)
+                  writing kernels for{" "}
+                  <a
+                    href="https://tenstorrent.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-foreground underline decoration-foreground/35 underline-offset-4 transition hover:decoration-foreground"
+                  >
+                    tenstorrent
+                  </a>
+                  ’s ai accelerator card —{" "}
+                  <a
+                    href="https://docs.tenstorrent.com/aibs/blackhole/index.html"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-foreground underline decoration-foreground/35 underline-offset-4 transition hover:decoration-foreground"
+                  >
+                    blackhole p100a
+                  </a>{" "}
+                  — learning alongside them ;)
                 </p>
               </div>
 
