@@ -86,56 +86,63 @@ export default function Home() {
                   className="mx-auto mb-5 w-52 md:float-right md:mb-5 md:ml-7 md:mt-1 md:w-[34%] lg:w-[29%]"
                 />
                 <span>hellow!! my name is </span>
-                <strong className="font-bold text-foreground">rafan ahmed</strong>
-                <span> (pronounced like “ra-fawn”, get it!?)!</span>
-                <div className="mt-4 border-l border-foreground/25 pl-5 text-[16px] leading-[1.68] text-foreground/74 sm:text-[18px]">
-                  <p>
-                    i am a natural lover, i do believe. sometimes i whimsy and
-                    frolic a bit too much, or i procure spectacles out of my
-                    control, and sometimes i move like a realpolitik pragmatist,
-                    to put it bluntly.
-                  </p>
-                  <p className="mt-4">
-                    but, ultimately, i have a love for seeking gnosis. although
-                    my perspective on this is highly anthropocentric, i truly
-                    believe in, and do my best to, pursue and uphold rigor in the
-                    cultivation of knowledge granted to humanity and in
-                    humanity’s capacity to shape that knowledge over the
-                    environment around us, whether that be for the betterment of
-                    and connection with those i love and work with, alllll the
-                    way to the things i build, develop and scale (like ai! i
-                    like ai a lot, it’s what i spend much of my time thinking
-                    about and building)!
-                  </p>
-                  <p className="mt-4">
-                    i do best in contributing to and/or leading spaces through
-                    which competence, passion &amp; humility are seen,
-                    acknowledged, and loved. for others and myself to be given
-                    the opportunity to cultivate and channel knowledge and
-                    scaling in ways contributory to oneself and ultimately –
-                    hopefully economically (active developments here) – to each
-                    other!
-                  </p>
-                  <p className="mt-4">
-                    i am a lover of building meaningful relationships with one
-                    another. i am a lover of learning and implementing things of
-                    rigor &amp; meaning, and i implement and espouse this onto
-                    those who i have immense care for and work with.
-                  </p>
-                  <p className="mt-4">
-                    <strong className="font-bold text-foreground">
-                      tl;dr (why didn’t yew read it all mweh ;-;):
-                    </strong>
-                    <br />i am someone who embodies the fact that knowledge is
-                    something humanity cultivates, and that rigor matters in
-                    cultivating said knowledge; knowledge gives human beings
-                    agency, and that agency should ultimately be directed toward
-                    meaningful ends for oneself and each other.
-                  </p>
-                </div>
+                <details id="rafan-ahmed" className="inline">
+                  <summary className="inline cursor-pointer list-none font-bold text-foreground underline decoration-foreground/35 underline-offset-4 transition hover:decoration-foreground [&::-webkit-details-marker]:hidden">
+                    rafan ahmed
+                    <span className="font-normal text-foreground/86">
+                      {" "}
+                      (pronounced like “ra-fawn”, get it!?)!
+                    </span>
+                  </summary>
+                  <div className="mt-4 border-l border-foreground/25 pl-5 text-[16px] leading-[1.68] text-foreground/74 sm:text-[18px]">
+                    <p>
+                      i am a natural lover, i do believe. sometimes i whimsy and
+                      frolic a bit too much; sometimes i procure spectacles
+                      outside of my control; and sometimes, to put it bluntly, i
+                      move like a realpolitik pragmatist.
+                    </p>
+                    <p className="mt-4">
+                      but, ultimately, i have a love for seeking gnosis.
+                      although my perspective on this is highly anthropocentric,
+                      i truly believe in, and do my best to, pursue and uphold
+                      rigor in the cultivation of knowledge granted to humanity,
+                      and in humanity’s capacity to shape that knowledge through
+                      the environment around us. whether that is for the
+                      betterment of, and connection with, those i love and work
+                      with, or alllll the way to the things i build, develop,
+                      and scale (like ai! i like ai a lot, it’s what i spend
+                      much of my time thinking about and building)!
+                    </p>
+                    <p className="mt-4">
+                      i do best in contributing to and/or leading spaces through
+                      which competence, passion &amp; humility are seen,
+                      acknowledged, and loved. for others and myself to be given
+                      the opportunity to cultivate and channel knowledge and
+                      scaling in ways that are contributory to oneself and,
+                      ultimately – hopefully economically (active developments
+                      here) – to each other!
+                    </p>
+                    <p className="mt-4">
+                      i am a lover of building meaningful relationships with one
+                      another. i am a lover of learning and implementing things
+                      of rigor &amp; meaning, and i try to implement and espouse
+                      this with those who i have immense care for and work with.
+                    </p>
+                    <p className="mt-4">
+                      <strong className="font-bold text-foreground">
+                        tl;dr (why didn’t yew read it all mweh ;-;):
+                      </strong>
+                      <br />i am someone who embodies the fact that knowledge is
+                      something humanity cultivates, and that rigor matters in
+                      cultivating said knowledge. knowledge gives human beings
+                      agency, and that agency should ultimately be directed
+                      toward meaningful ends, for oneself and for each other.
+                    </p>
+                  </div>
+                </details>
               </div>
 
-              <div className="clear-both mt-8 grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,0.92fr)_minmax(300px,0.68fr)] md:items-center">
+              <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,0.92fr)_minmax(300px,0.68fr)] md:items-center">
                 <p>
                   it was 2023, graduating early from highschool and moving to
                   japan, when two really, really, really important things
