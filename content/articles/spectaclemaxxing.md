@@ -19,7 +19,8 @@ draft: false
 
 If you have been prowling the internet chronically and actively falling under
 the spell of the current zeitgeist of post-irony culture, you may have come
-across this term: *jestermaxxing*. This term has been used to describe using humor or charisma — often self-deprecatingly — to attract attention from others, usually women.
+across this term: *jestermaxxing*. It refers to using humor or
+charisma—often self-deprecatingly—to attract attention—typically from women.
 
 <figure>
   <img
@@ -31,9 +32,16 @@ across this term: *jestermaxxing*. This term has been used to describe using hum
   </figcaption>
 </figure>
 
-However, when we extend this term in relation to what we're discussing, we should move beyond the gender-attraction discourse for this one. I’m really starting to see that there’s a level beyond the conventional understandings of what we generally think of as *jestermaxxing*. As I introspected on my own engagement in such behaviors and analysis of their underlying risk–reward calculus through the lens of Kelly mathematics, I found something that is far more dangerous:
+However, when we extend this term in relation to what is to be discussed, we
+should move beyond the gender-attraction discourse for this one. I’m starting
+to see that there’s a level beyond the conventional understandings of what we
+generally think of as *jestermaxxing*. Through introspection on my own
+engagement in such behaviors and analysis of their underlying risk–reward
+calculus through the lens of Kelly mathematics, I found something that is far
+more dangerous.
 
-***spectaclemaxxing***.
+I call it ***spectaclemaxxing***.
+
 ## Spectacle Is Not Histrionics
 
 To settle this and avoid being nitpicked by wannabe psychologists and DSM-5
@@ -44,9 +52,14 @@ there is a deliberate act of conscious engagement in humorful, socially
 rewarding, and validation-seeking behavior through either charisma or accepted
 self-deprecation.
 
-*Jestermaxxing* and ***spectaclemaxxing***, then, can be described as meta-cognitive: There exists demand for a sort of modeled awareness when performing and adjusting one's conscious act of these said *jestermaxxing* behaviors in real time.
+*Jestermaxxing* and ***spectaclemaxxing***, then, can be described as
+meta-cognitive, in that they involve a modeled awareness of performing and
+adjusting in real time.
 
-However, histrionicism, by contrast, is not a consciously constructed paradigm but rather a manifestation of affective compulsion. It is reassurance-seeking, emotionally reactive patterns. More importantly, it is not deliberate strategic engagement, unlike *jestermaxxing* and ***spectaclemaxxing***. There is inherent unintelligence, impulsivity, and shallowness
+Histrionicism, by contrast, operates less as a consciously constructed paradigm
+and more as an affective compulsion, driven by reassurance-seeking and
+emotionally reactive pattern systems rather than deliberate strategic
+engagement. There is inherent unintelligence, impulsivity, and shallowness
 baked into histrionics that I would take offense at having ascribed to me.
 
 However, the spectacle I yearn to be and cultivate is all intentional.
@@ -60,13 +73,13 @@ utility.
 
 ## The Exhibitionist Instinct
 
-I love attention — a lot! I love performance! I love being performative! I love
+I love attention—a lot! I love performance! I love being performative! I love
 wielding an unnecessary (in most cases) oversized, elitist lexicon in my
-everyday dialogue — something my ML research friends jokingly call
+everyday dialogue—something my ML research friends jokingly call
 “tokenmaxxing.” None of it is accidental.
 
 For every disclosure of my oddness, for every contrarian stance I hold—from my
-flesh to my rhetoric, to whom I fall in love with — for every time I dump lore
+flesh to my rhetoric, to whom I fall in love with—for every time I dump lore
 about myself, for every niche, weird moment I share, it is all in the pursuit
 of being a spectacle. To be a natural contrarian for the love of the game. To
 push the limits of performance.
@@ -87,7 +100,7 @@ about my innate nature to be the exhibit for all to witness, from skin to
 thought. You might call out the irony in my descriptions. Earlier, I mentioned
 that histrionism is characterized by over-emotionality and impulsivity.
 
-But here’s the thing: I am deeply aware of these mechanisms — aware enough, in
+But here’s the thing: I am deeply aware of these mechanisms—aware enough, in
 fact, to critique them and call them out, bringing a kind of genuine humility
 upon myself. And so, even at my most irrational, this merely becomes just a
 mispricing-of-a-trade risk.
@@ -142,7 +155,11 @@ $$
 
 The Kelly Criterion seeks not to provide the highest average return per
 decision, but rather to identify the fraction that allows the arbitrary
-currency to grow fastest over time without self-destruction. This is done by maximizing expected logarithmic growth — the average rate of something compounding over time when returns are multiplicative rather than additive — which accounts for volatility and survival over repeated exposure rather than chasing the highest average returns per decision.
+currency to grow fastest over time without self-destruction. This is done by
+maximizing expected logarithmic growth—the average rate of compounding over
+time when returns are multiplicative rather than additive—thereby explicitly
+accounting for compounding, volatility, and survival over repeated exposure
+rather than simply chasing the highest average return per decision.
 
 Let:
 
@@ -178,7 +195,7 @@ $$
 $$
 
 In financial markets, this might look like allocating a calculated portion of
-your portfolio to a high-volatility stock — large enough to meaningfully benefit
+your portfolio to a high-volatility stock—large enough to meaningfully benefit
 from your expected edge (your estimated positive expected value before the
 outcome is known), but small enough that a wrong move does not compromise
 overall stability. You don’t go all in; you size the trade according to the
@@ -188,7 +205,7 @@ degree of uncertainty involved.
 ***Spectaclemaxxing***, for me, operates the same way. For every contrarian stance,
 for every reveal of vulnerability, it is a calculation between sounding
 interesting and becoming a spectacle while preserving stability. Every
-disclosure of vulnerability is a sized exposure — large enough to generate
+disclosure of vulnerability is a sized exposure—large enough to generate
 visibility, differentiation, and energetic response, but constrained enough to
 preserve coherence and structural stability, at least in theory.
 
@@ -358,6 +375,6 @@ unstable spectacles and am now trying to recover from that by oversizing my
 spectacleness.
 
 Overall, it is not working, and so I am deeply aware of the irony that this
-piece entails — given that it, in and of itself, is a performance. A whole
+piece entails—given that it, in and of itself, is a performance. A whole
 “proof” for cope is pretty crazy. Truly a tokenmaxxer for the love of the game,
 eh?
