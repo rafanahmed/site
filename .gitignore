@@ -47,3 +47,7 @@ next-env.d.ts
 # terminal (work in progress)
 src/app/terminal/
 src/components/Terminal.tsx
+
+# hidden articles
+content/articles/
+public/articles/
