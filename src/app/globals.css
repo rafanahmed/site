@@ -5,6 +5,7 @@
   /* dark mode */
   :root {
     color-scheme: dark;
+    scrollbar-gutter: stable;
     --background: #131313;
     --foreground: #fafafa;
 
