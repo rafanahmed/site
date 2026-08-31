@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ArticleMeta } from "@/lib/article-types";
 import { formatArticleDate, formatReadingTime } from "@/lib/article-types";
 
@@ -44,6 +44,7 @@ function readInitialState() {
 
 export default function BlogList({ articles }: Props) {
   const initialState = useMemo(() => readInitialState(), []);
+  const controlsRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState<"newest" | "oldest">(initialState.tab);
   const [section, setSection] = useState<SectionFilter>(initialState.section);
   const [tag, setTag] = useState(initialState.tag);
@@ -107,9 +108,35 @@ export default function BlogList({ articles }: Props) {
     }
   }, [filterQuery]);
 
+  useEffect(() => {
+    if (!openMenu) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!controlsRef.current?.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpenMenu(null);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openMenu]);
+
   return (
     <section className="mt-10">
-      <div className="flex flex-wrap items-center gap-1.5 border-b border-foreground/10 pb-3">
+      <div
+        ref={controlsRef}
+        className="flex flex-wrap items-center gap-1.5 border-b border-foreground/10 pb-3"
+      >
         <div className="flex flex-wrap items-center gap-1.5">
           <div className="relative">
             <button
@@ -223,13 +250,19 @@ export default function BlogList({ articles }: Props) {
           <div className="flex items-center gap-1">
             <TabButton
               active={tab === "newest"}
-              onClick={() => setTab("newest")}
+              onClick={() => {
+                setTab("newest");
+                setOpenMenu(null);
+              }}
             >
               Newest
             </TabButton>
             <TabButton
               active={tab === "oldest"}
-              onClick={() => setTab("oldest")}
+              onClick={() => {
+                setTab("oldest");
+                setOpenMenu(null);
+              }}
             >
               Oldest
             </TabButton>

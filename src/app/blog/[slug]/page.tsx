@@ -41,10 +41,10 @@ export default async function ArticlePage({
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 pb-24 pt-6 sm:px-8">
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 pb-24 pt-6 sm:px-8">
         <SiteHeader />
 
-        <article className="mt-10">
+        <article className="mx-auto mt-10 w-full max-w-3xl">
           <Link
             href="/blog"
             className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/55 transition hover:text-foreground"
