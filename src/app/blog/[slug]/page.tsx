@@ -4,15 +4,15 @@ import SiteHeader from "@/components/site-header";
 import {
   formatArticleDate,
   formatReadingTime,
-  getAllArticleSlugs,
+  getAllArticles,
   getArticleBySlug,
 } from "@/lib/articles";
 
 type Params = { slug: string };
 
 export async function generateStaticParams(): Promise<Params[]> {
-  const slugs = await getAllArticleSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const articles = await getAllArticles();
+  return articles.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({

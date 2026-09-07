@@ -49,5 +49,9 @@ src/app/terminal/
 src/components/Terminal.tsx
 
 # hidden articles
-content/articles/
-public/articles/
+content/articles/*
+!content/articles/what-happens-below-a-machine-learning-framework.md
+public/articles/*
+!public/articles/what-happens-below-a-machine-learning-framework/
+public/articles/what-happens-below-a-machine-learning-framework/*
+!public/articles/what-happens-below-a-machine-learning-framework/cover.png

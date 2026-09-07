@@ -11,6 +11,7 @@ type Props = {
 
 const sections = [
   { id: "top", label: "top", color: "bg-foreground/35" },
+  { id: "AI/ML", label: "AI/ML", color: "bg-sky-500" },
   { id: "yap", label: "yap", color: "bg-red-500" },
   { id: "archive", label: "archive", color: "bg-orange-300" },
   { id: "all", label: "all", color: "bg-foreground/35" },
@@ -421,13 +422,19 @@ function TagOption({
   );
 }
 
-function SectionBadge({ section }: { section: "top" | "archive" | "yap" }) {
+function SectionBadge({
+  section,
+}: {
+  section: "top" | "AI/ML" | "archive" | "yap";
+}) {
   return (
     <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground/60">
       <span
         aria-hidden="true"
         className={`h-3 w-5 rounded-[2px] ${
-          section === "yap"
+          section === "AI/ML"
+            ? "bg-sky-500"
+            : section === "yap"
             ? "bg-red-500"
             : section === "archive"
               ? "bg-orange-300"
