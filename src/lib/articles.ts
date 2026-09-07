@@ -29,31 +29,131 @@ type HastElement = {
   children?: HastNode[];
 };
 
-type HastNode = HastElement | { type: string; children?: HastNode[] };
+type HastNode =
+  | HastElement
+  | { type: string; value?: string; children?: HastNode[] };
 
 function rehypeLinksOpenInNewTab() {
   const visit = (node: HastNode) => {
     if (node.type === "element" && (node as HastElement).tagName === "a") {
       const el = node as HastElement;
       const props = (el.properties ??= {});
-      props.target = "_blank";
-      const existingRel = props.rel;
-      const rels = new Set<string>(
-        Array.isArray(existingRel)
-          ? (existingRel as string[])
-          : typeof existingRel === "string"
-            ? existingRel.split(/\s+/).filter(Boolean)
-            : [],
-      );
-      rels.add("noopener");
-      rels.add("noreferrer");
-      props.rel = Array.from(rels);
+      const href = props.href;
+      if (typeof href === "string" && /^https?:\/\//.test(href)) {
+        props.target = "_blank";
+        const existingRel = props.rel;
+        const rels = new Set<string>(
+          Array.isArray(existingRel)
+            ? (existingRel as string[])
+            : typeof existingRel === "string"
+              ? existingRel.split(/\s+/).filter(Boolean)
+              : [],
+        );
+        rels.add("noopener");
+        rels.add("noreferrer");
+        props.rel = Array.from(rels);
+      }
     }
     if (node.children) {
       for (const child of node.children) visit(child);
     }
   };
   return (tree: HastNode) => visit(tree);
+}
+
+function rehypeMarginNotes() {
+  return (tree: HastNode) => {
+    if (!tree.children) return;
+
+    const footnoteSection = tree.children.find(
+      (node) =>
+        node.type === "element" &&
+        (node as HastElement).tagName === "section" &&
+        Object.hasOwn(
+          (node as HastElement).properties ?? {},
+          "dataFootnotes",
+        ),
+    ) as HastElement | undefined;
+
+    if (!footnoteSection) return;
+
+    const notes = new Map<string, HastElement>();
+    const collectNotes = (node: HastNode) => {
+      if (node.type === "element" && (node as HastElement).tagName === "li") {
+        const element = node as HastElement;
+        const id = element.properties?.id;
+        if (typeof id === "string") notes.set(`#${id}`, element);
+      }
+      for (const child of node.children ?? []) collectNotes(child);
+    };
+    collectNotes(footnoteSection);
+
+    const placed = new Set<string>();
+    const children: HastNode[] = [];
+
+    for (const child of tree.children) {
+      if (child === footnoteSection) continue;
+      children.push(child);
+
+      const references: HastElement[] = [];
+      const collectReferences = (node: HastNode) => {
+        if (
+          node.type === "element" &&
+          (node as HastElement).tagName === "a" &&
+          Object.hasOwn(
+            (node as HastElement).properties ?? {},
+            "dataFootnoteRef",
+          )
+        ) {
+          references.push(node as HastElement);
+        }
+        for (const nested of node.children ?? []) collectReferences(nested);
+      };
+      collectReferences(child);
+
+      for (const reference of references) {
+        const href = reference.properties?.href;
+        if (typeof href !== "string" || placed.has(href)) continue;
+
+        const definition = notes.get(href);
+        if (!definition) continue;
+
+        const numberNode = reference.children?.find(
+          (node) => node.type === "text",
+        ) as { type: string; value?: string } | undefined;
+        const number = numberNode?.value ?? "";
+        const label = `Footnote ${number}`.trim();
+
+        const properties = (reference.properties ??= {});
+        properties.role = "doc-noteref";
+        properties.ariaLabel = label;
+        delete properties.ariaDescribedBy;
+
+        children.push({
+          type: "element",
+          tagName: "aside",
+          properties: {
+            id: href.slice(1),
+            className: ["article-sidenote"],
+            role: "doc-footnote",
+            ariaLabel: label,
+          },
+          children: [
+            {
+              type: "element",
+              tagName: "span",
+              properties: { className: ["article-sidenote-number"] },
+              children: [{ type: "text", value: number }],
+            },
+            ...(definition.children ?? []),
+          ],
+        });
+        placed.add(href);
+      }
+    }
+
+    tree.children = children;
+  };
 }
 
 const WORDS_PER_MINUTE = 220;
@@ -174,6 +274,7 @@ export async function renderMarkdown(md: string): Promise<string> {
     .use(remarkMath)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(rehypeMarginNotes)
     .use(rehypeLinksOpenInNewTab)
     .use(rehypeKatex)
     .use(rehypePrettyCode, {

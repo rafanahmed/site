@@ -77,8 +77,8 @@ $$
 > And, since tensors can have arbitrarily sized dimensions, we can use $r$, $s$, and $t$ to denote the individual tensor ranks for $x$, $W$, and $y$, respectively, and $d$, $w$, and $e$ to denote some assigned value/size of each dimension, also respectively. Therefore,
 >
 > $$
-x \in \mathbb{R}^{d_1 \times d_2 \times \cdots \times d_r}, \qquad W \in \mathbb{R}^{w_1 \times w_2 \times \cdots \times w_s}, \qquad y \in \mathbb{R}^{e_1 \times e_2 \times \cdots \times e_t}
- $$
+> x \in \mathbb{R}^{d_1 \times d_2 \times \cdots \times d_r}, \qquad W \in \mathbb{R}^{w_1 \times w_2 \times \cdots \times w_s}, \qquad y \in \mathbb{R}^{e_1 \times e_2 \times \cdots \times e_t}
+> $$
 >
 > [^2]
 

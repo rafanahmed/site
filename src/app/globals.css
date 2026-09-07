@@ -119,6 +119,54 @@
   text-decoration-color: var(--foreground);
 }
 
+.prose-article [data-footnote-ref] {
+  margin-left: 0.12em;
+  font-size: 0.72em;
+  font-weight: 600;
+  text-decoration: none;
+  vertical-align: super;
+}
+
+.prose-article .article-sidenote {
+  margin: 0.75rem 0 1.5rem;
+  border-left: 2px solid
+    color-mix(in oklab, var(--foreground) 22%, transparent);
+  padding: 0.65rem 0 0.65rem 0.9rem;
+  color: color-mix(in oklab, var(--foreground) 62%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.prose-article .article-sidenote-number {
+  float: left;
+  margin-right: 0.5rem;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.prose-article .article-sidenote p {
+  margin: 0;
+  color: inherit;
+}
+
+.prose-article [data-footnote-backref] {
+  margin-left: 0.35rem;
+  text-decoration: none;
+}
+
+@media (min-width: 1280px) {
+  .prose-article .article-sidenote {
+    float: right;
+    clear: right;
+    width: 13rem;
+    margin: 0.2rem -14.5rem 1rem 1.5rem;
+    border-left-width: 1px;
+    padding: 0.15rem 0 0.15rem 0.85rem;
+    font-size: 0.7rem;
+  }
+}
+
 .prose-article strong {
   color: var(--foreground);
   font-weight: 600;
