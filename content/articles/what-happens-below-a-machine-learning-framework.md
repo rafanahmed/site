@@ -96,17 +96,6 @@ $$
 \mathcal{L} = \text{loss}(y,y_{\text{true}})
 $$
 
-<!--
-VISUAL PLACEHOLDER
-Placement: After the paragraph or equation above.
-Suggested visual: An original left-to-right diagram showing input tensor x and weight tensor W entering x @ W, producing prediction y, which is then compared with y_true by the loss function to produce L.
-Learning purpose: Make the forward dependency path and the role of the loss value visible before the article begins tracing derivatives backward.
-Preferred source: An original diagram.
-Caption direction: The forward pass transforms x with W to produce y, and the loss function compares y with y_true to produce L.
-Verification: Confirm that the final image supports the surrounding claim and that its license permits reuse.
-Alt text: Flow diagram from x and W through matrix multiplication to prediction y and then through the loss function with y_true to loss L.
--->
-
 Fundamentally, you can think of backpropagation as moving backwards from a forward propagation. We are trying to figure out which learned knobs contributed to how off the prediction $y$ was. This means we want to figure out how wrong the neural network’s prediction was and subsequently which learned knobs caused the network to be wrong and by how much.
 
 So, we want to know how sensitive the loss function result $\mathcal{L}$ is to changes in the weight matrix $W$ by taking the partial derivative of $\mathcal{L}$ with respect to $W$:
@@ -194,17 +183,6 @@ As mentioned earlier, the data input $x$, weight $W$, and prediction $y$ are bes
 
 For example, PyTorch stores information like the [data type](https://docs.pytorch.org/docs/2.14/tensor_attributes.html), [device](https://docs.pytorch.org/docs/2.14/tensor_attributes.html), and [layout](https://docs.pytorch.org/docs/2.14/tensor_attributes.html) when defining a tensor.[3](#ref-3) Intuitively, the tensor’s shape tells the framework the dimensions of the data, and the layout and related metadata signal how that tensor is arranged and accessed in memory.
 
-<!--
-VISUAL PLACEHOLDER
-Placement: After the paragraph or equation above.
-Suggested visual: An original two-part diagram pairing a flat linear memory buffer with a tensor object whose metadata labels identify shape, data type, device, and layout.
-Learning purpose: Show how the same stored values are interpreted through metadata rather than appearing to hardware as an abstract mathematical matrix.
-Preferred source: An original diagram informed by official PyTorch tensor documentation.
-Caption direction: Tensor metadata tells the framework how a linear collection of stored values should be interpreted and accessed.
-Verification: Confirm that the final image supports the surrounding claim and that its license permits reuse.
-Alt text: Linear memory cells connected to a tensor metadata panel listing shape, data type, device, and layout.
--->
-
 This is important when we analyze the perspective in which a piece of hardware takes upon a tensor’s presence: a $x \in \mathbb{R}^{m \times k}$ matrix and a $W \in \mathbb{R}^{k \times n}$ matrix have their values stored ultimately within a hardware system’s [memory locations](https://technav.ieee.org/topic/address/). This means that before an operation like `@` can be validated and executed, a computer system must know whether the tensors are on a [CPU](https://www.ibm.com/think/topics/central-processing-unit), on an [accelerator card](https://ciq.com/glossary/accelerator-cards), or in some other memory space. Within these constraints, the system must know a tensor’s dimensionality compatibility, [memory layout](https://docs.tenstorrent.com/tt-metal/latest/tt-metalium/tt_metal/labs/matmul/lab1/lab1.html#row-major-memory-layout), and whether it is [suitable for the operation requested](https://docs.pytorch.org/docs/stable/generated/torch.matmul.html).
 
 So, within the software-to-hardware dynamic, when `y = x @ W` is invoked, a framework must resolve what kind of tensor operation is being requested and choose an implementation based on it; a process that can be broadly understood as an [operation dispatch](https://docs.pytorch.org/devlogs/dispatcher/2026-04-16-how-does-the-dispatcher-work/). Depending on different tensor attributes, this operation dispatch can look different across the board.
@@ -212,17 +190,6 @@ So, within the software-to-hardware dynamic, when `y = x @ W` is invoked, a fram
 We can get even lower than this; this was merely the software side of the hardware boundary here. There exists even more concreteness within the `y = x @ W` expression. As mentioned earlier, the matrix multiplication operation needs [memory allocation](https://docs.tenstorrent.com/tt-metal/latest/tt-metalium/tt_metal/advanced_topics/memory_for_kernel_developers.html), layout conversion, scheduling the processes and tasks around the operation, and [hardware-specific kernels](https://docs.tenstorrent.com/tt-metal/latest/tt-metalium/tt_metal/examples/matmul_single_core.html). As mentioned earlier, a great example is Tenstorrent’s open software stack, which separates the higher-level compiler and operation interfaces from the low-level programming and metal through the [TT-Metalium](https://github.com/tenstorrent/tt-metal) repository.[2](#ref-2), [4](#ref-4)
 
 As a wrap-up, not every ML framework adheres to the same philosophy, you could say, on how it handles something like Python code all the way down to hardware execution. For a system to turn `y = x @ W` into a concrete plan, it must understand the tensors and validate the operation invoked upon them. Then it chooses an implementation, manages the memory space, and then it finally performs the real work on the metal.
-
-<!--
-VISUAL PLACEHOLDER
-Placement: After the paragraph or equation above.
-Suggested visual: An original layered execution-path diagram tracing y = x @ W through tensor validation, operation dispatch, backend selection, runtime scheduling, memory allocation, a device-specific matrix-multiplication kernel, and CPU or accelerator hardware.
-Learning purpose: Reveal the sequence of hidden software and hardware decisions compressed into one high-level tensor operation.
-Preferred source: An original diagram informed by official framework and hardware-runtime documentation.
-Caption direction: A high-level tensor expression is interpreted, dispatched, scheduled, and executed by backend-specific kernels over device memory.
-Verification: Confirm that the final image supports the surrounding claim and that its license permits reuse.
-Alt text: Layered path from y equals x at W through dispatch and runtime components to a kernel operating on CPU or accelerator memory.
--->
 
 ### Underneath `loss.backward()`
 
@@ -232,29 +199,7 @@ Recall that when `loss.backward()` is invoked, the abstraction is actually the b
 
 Take [micrograd](https://github.com/karpathy/micrograd) as an example. Micrograd is a small, scalar-valued, [reverse automatic differentiation engine](https://rufflewind.com/2016-12-30/reverse-mode-automatic-differentiation#:~:text=rust%2Dad%20library.-,Reverse%2Dmode%20automatic%20differentiation,-The%20implementation%20simplicity) (autograd) developed by [Andrej Karpathy](https://en.wikipedia.org/wiki/Andrej_Karpathy) as an educational implementation of what lies underneath an ML framework during backpropagation. A [dynamically constructed directed acyclic graph (DAG)](https://www.databricks.com/blog/what-is-dag) is instantiated, which helps the engine remember the operations that produced the values from forward propagation, which previous values existed/depended on, and what local backward rule should be applied. In simpler terms, this all leaves a trail/record of how the loss value came to be.
 
-<!--
-VISUAL PLACEHOLDER
-Placement: After the paragraph or equation above.
-Suggested visual: An original micrograd-style dynamic DAG in which scalar value nodes record the ordinary forward operations that produce a final loss node, with each edge labeled by its dependency direction.
-Learning purpose: Make visible how forward execution leaves a dependency record that reverse-mode autodiff can later traverse.
-Preferred source: An original diagram informed by the micrograd implementation.
-Caption direction: During the forward computation, connected value objects record the dynamic DAG that explains how the final loss was produced.
-Verification: Confirm that the final image supports the surrounding claim and that its license permits reuse.
-Alt text: Dynamic directed acyclic graph of scalar values and operations leading from inputs and weights to a final loss node.
--->
-
 This record-keeping structure can, at times, demonstrate that one value within this chain can affect the [final loss value](https://developers.google.com/machine-learning/crash-course/linear-regression/loss) through multiple computational paths. The same weight $W$ can be used in multiple later operations, which means several downstream pieces can be affected when it comes to contributing toward that said weight’s [final gradient](https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent). Before gradients are propagated backwards, the system has to traverse the DAG in an order that respects how each value was used. In Karpathy’s micrograd, it builds this [topological ordering of a DAG](https://geeksforgeeks.org/dsa/topological-sorting/) before it applies the backward chain rules.
-
-<!--
-VISUAL PLACEHOLDER
-Placement: After the paragraph or equation above.
-Suggested visual: An original two-panel DAG diagram showing reverse topological traversal in the first panel and multiple downstream gradient contributions converging and accumulating at one shared weight in the second.
-Learning purpose: Distinguish traversal order from gradient accumulation and show why a reused value may receive contributions through several paths.
-Preferred source: An original diagram informed by reverse-mode autodiff and micrograd.
-Caption direction: Reverse-mode autodiff follows reverse topological order while accumulating every gradient contribution that reaches a shared value.
-Verification: Confirm that the final image supports the surrounding claim and that its license permits reuse.
-Alt text: Two-panel graph showing backward traversal order and several gradient arrows adding together at a shared weight node.
--->
 
 If we scale this ML framework infrastructure — to the size of PyTorch — the autograd mechanics follow the same broad idea. As tensor operations execute, PyTorch will construct this graph of backward `Function` objects. These intermediate values are saved and called upon when needed for future derivative calculations. Then, upon calling `loss.backward()`, autograd uses these operation history records to compute gradients. Ultimately, the goal is to preserve enough information during the forward pass so that the backwards pass can later apply the chain rule correctly.
 
@@ -281,17 +226,6 @@ For example, two different handling styles — [eager execution systems](https:/
 In the exploratory pursuit of software-to-hardware dynamics, there exists a distinction between the gradient computation graphs and compiler IRs. You could think of an autograd graph as asking *“how was this loss $\mathcal{L}$ produced, and how should the gradient $\nabla_W \mathcal L$ be computed?”* The compiler IR would ask, *“Well, how would this computation be represented, conditioned to the fact that it needs to be optimized and subsequently mapped into a target execution system?”*
 
 These roles are distinct, but they are not mutually exclusive: some systems perform automatic differentiation as a transformation over an intermediate representation, and computations produced by autodiff may later be captured and compiled.
-
-<!--
-VISUAL PLACEHOLDER
-Placement: After the paragraph or equation above.
-Suggested visual: An original side-by-side comparison in which an autograd graph emphasizes value dependencies and local backward rules while a compiler IR emphasizes operations, values, transformations, scheduling, and target mapping.
-Learning purpose: Prevent readers from conflating two graph-like representations that answer different questions and may exist at different stages of a system.
-Preferred source: An original diagram informed by official autograd and compiler documentation.
-Caption direction: An autograd graph records how to propagate derivatives, while compiler IR represents computation for transformation and execution planning.
-Verification: Confirm that the final image supports the surrounding claim and that its license permits reuse.
-Alt text: Side-by-side comparison of an autograd dependency graph and a compiler intermediate representation with their distinct purposes labeled.
--->
 
 As we descend deeper into the abstractions, and into the compiler representation side of things — i.e., intermediate representations — it is important to note that reverse-mode autodiff does not require the representation known as [Static Single Assignment (SSA)](https://www.geeksforgeeks.org/compiler-design/static-single-assignment-with-relevant-examples/). In many compiler tasks, SSA can be useful; however, it is not a prerequisite for autodiff specifically. Micrograd is an example of this, since its reverse-mode autodiff is actually implemented via ordinary Python objects connected through the dynamic DAG rather than this compiler IR approach.[7](#ref-7)
 
