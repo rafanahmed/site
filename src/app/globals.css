@@ -8,6 +8,8 @@
     scrollbar-gutter: stable;
     --background: #131313;
     --foreground: #fafafa;
+    --link: #c4a7ff;
+    --link-hover: #dfd1ff;
 
     --font-sans: var(--font-inter);
     --font-mono: var(--font-plex-mono);
@@ -25,6 +27,8 @@
     color-scheme: light;
     --background: #fbeae7;
     --foreground: #3b2a1f;
+    --link: #6d28d9;
+    --link-hover: #4c1d95;
 
     --contrib-0: #f2d7d1;
     --contrib-1: #eab6a9;
@@ -43,6 +47,14 @@
     transition:
       background-color 150ms ease,
       color 150ms ease;
+  }
+
+  body a[href] {
+    color: var(--link);
+  }
+
+  body a[href]:hover {
+    color: var(--link-hover);
   }
 
   .theme-icon {
@@ -67,6 +79,8 @@
 }
 
 .prose-article {
+  min-width: 0;
+  max-width: 100%;
   color: color-mix(in oklab, var(--foreground) 88%, transparent);
   font-family: var(--font-mono);
   font-size: 0.95rem;
@@ -108,15 +122,16 @@
 }
 
 .prose-article a {
-  color: var(--foreground);
+  color: var(--link);
   text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--foreground) 35%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--link) 55%, transparent);
   text-underline-offset: 3px;
   transition: text-decoration-color 150ms ease;
 }
 
 .prose-article a:hover {
-  text-decoration-color: var(--foreground);
+  color: var(--link-hover);
+  text-decoration-color: var(--link-hover);
 }
 
 .prose-article [data-footnote-ref] {
@@ -153,6 +168,27 @@
 .prose-article [data-footnote-backref] {
   margin-left: 0.35rem;
   text-decoration: none;
+}
+
+.prose-article .article-footnotes-heading {
+  display: none;
+}
+
+@media (max-width: 1279px) {
+  .prose-article {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .prose-article .article-footnotes-heading {
+    display: block;
+    order: 99;
+    margin-top: 2.25em;
+  }
+
+  .prose-article .article-sidenote {
+    order: 100;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -220,6 +256,7 @@
 }
 
 .prose-article pre {
+  max-width: 100%;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.65;
@@ -274,9 +311,28 @@
 }
 
 .prose-article .katex-display {
+  width: 100%;
+  max-width: 100%;
   margin: 1.5em 0;
   overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 640px) {
+  .prose-article {
+    overflow-wrap: anywhere;
+  }
+
+  .prose-article :is(pre, figure, table, blockquote, .katex-display) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .prose-article .katex-display {
+    font-size: 0.85em;
+  }
 }
 
 .prose-article [data-rehype-pretty-code-figure] {

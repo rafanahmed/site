@@ -152,6 +152,15 @@ function rehypeMarginNotes() {
       }
     }
 
+    if (placed.size > 0) {
+      children.push({
+        type: "element",
+        tagName: "h2",
+        properties: { className: ["article-footnotes-heading"] },
+        children: [{ type: "text", value: "Footnotes" }],
+      });
+    }
+
     tree.children = children;
   };
 }

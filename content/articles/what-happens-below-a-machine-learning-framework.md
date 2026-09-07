@@ -106,11 +106,31 @@ $$
 
 And, if $W \in \mathbb{R}^{k \times n}$, this can be visualized as a rank-2 tensor (matrix) collection of partial derivatives, denoted as what can be referred to as the [gradient of the loss](https://www.geeksforgeeks.org/machine-learning/gradient-descent-algorithm-and-its-variants/)[^4]:
 
-One way is to denote a single entry of the loss $\mathcal{L}$'s local sensitivity to one particular weight $W_{i,j}$, inside the gradient, such that $$\frac{\partial \mathcal{L}}{\partial W_{i,j}} \in \mathbb{R}$$where $i$ denotes the row number of the matrix and $j$ denotes the column number. This makes $W_{i,j}$ a scalar value; a rank-0 tensor.
+One way is to denote a single entry of the loss $\mathcal{L}$'s local sensitivity to one particular weight $W_{i,j}$, inside the gradient, such that
 
-To articulate multiple $\frac{\partial \mathcal{L}}{\partial W_{i,j}}$ entries within the gradient that follows an assumption of $W \in \mathbb{R}^{k \times n}$, then $$\frac{\partial \mathcal{L}}{\partial W} \in \mathbb{R}^{k \times n}$$
-A complete gradient containing the derivatives with respect to (w.r.t.) every component of $W$ is formalized in notation in a way that distinguishes generalizability regardless of the rank of $W$, given the loss $\mathcal{L}$ is scalar-valued: $$\nabla_W \mathcal L$$
-Thus, in this $W \in \mathbb{R}^{k \times n}$ paradigm, there exists an equivalence, such that $$\frac{\partial \mathcal{L}}{\partial W_{ij}} \equiv \left(\nabla_W \mathcal{L}\right)_{ij} \in \mathbb{R} \quad \wedge \quad \frac{\partial \mathcal{L}}{\partial W} \equiv \nabla_W \mathcal{L} \in \mathbb{R}^{k \times n}$$
+$$
+\frac{\partial \mathcal{L}}{\partial W_{i,j}} \in \mathbb{R}
+$$
+
+where $i$ denotes the row number of the matrix and $j$ denotes the column number. This makes $W_{i,j}$ a scalar value; a rank-0 tensor.
+
+To articulate multiple $\frac{\partial \mathcal{L}}{\partial W_{i,j}}$ entries within the gradient that follows an assumption of $W \in \mathbb{R}^{k \times n}$, then
+
+$$
+\frac{\partial \mathcal{L}}{\partial W} \in \mathbb{R}^{k \times n}
+$$
+
+A complete gradient containing the derivatives with respect to (w.r.t.) every component of $W$ is formalized in notation in a way that distinguishes generalizability regardless of the rank of $W$, given the loss $\mathcal{L}$ is scalar-valued:
+
+$$
+\nabla_W \mathcal L
+$$
+
+Thus, in this $W \in \mathbb{R}^{k \times n}$ paradigm, there exists an equivalence, such that
+
+$$
+\frac{\partial \mathcal{L}}{\partial W_{ij}} \equiv \left(\nabla_W \mathcal{L}\right)_{ij} \in \mathbb{R} \quad \wedge \quad \frac{\partial \mathcal{L}}{\partial W} \equiv \nabla_W \mathcal{L} \in \mathbb{R}^{k \times n}
+$$
 Therefore,
 
 $$
@@ -177,7 +197,7 @@ This is our **backpropagation** mechanism.
 
 Already, off the bat, we can see how `y = x @ W` and `loss.backward()` are simple lines of code that act, in and of themselves, as an abstraction of the mathematics in formal articulation. For these lines of code, sprawling software-to-hardware relationships with foundational robustness must exist; `y = x @ W` can perform a forward pass with ease, and `loss.backward()` can elegantly trigger a series of backward-chained derivatives in a neural network. This is where the even deeper abstractions reside.
 
-### Underneath `y = x @ W`
+## Underneath `y = x @ W`
 
 As mentioned earlier, the data input $x$, weight $W$, and prediction $y$ are best represented as tensors. A tensor differs from abstract matrix representations because, within an ML framework, it has additional attributes and is treated as an object carrying both data and [metadata](https://developer.mozilla.org/en-US/docs/Glossary/Metadata). This is crucial for interpreting and utilizing the [underlying values](https://docs.pytorch.org/tutorials/beginner/introyt/tensors_deeper_tutorial.html).
 
@@ -191,7 +211,7 @@ We can get even lower than this; this was merely the software side of the hardwa
 
 As a wrap-up, not every ML framework adheres to the same philosophy, you could say, on how it handles something like Python code all the way down to hardware execution. For a system to turn `y = x @ W` into a concrete plan, it must understand the tensors and validate the operation invoked upon them. Then it chooses an implementation, manages the memory space, and then it finally performs the real work on the metal.
 
-### Underneath `loss.backward()`
+## Underneath `loss.backward()`
 
 The result of `y = x @ W` is a prediction value $y$. Within a neural network, and its structure as previously stated, a comparison between the prediction and the correct answer $y_{\text{true}}$ is made via the loss $\mathcal{L}$, yielded from the loss function $\text{loss}(y,y_{\text{true}})$. The process of backpropagation is to determine how changes in the learned weight values $W$ affect the loss, which is crucial for how a neural network actually learns; it tries to understand how much the internal learned knobs of the model contributed to the error of the output, and compute the gradients needed for the optimization step needed to update the weights $W$.
 
@@ -205,7 +225,7 @@ If we scale this ML framework infrastructure — to the size of PyTorch — the 
 
 In this sense, you could say that `loss.backward()` sits just one layer above the execution machinery that was discussed earlier. If you think of autograd as deciding what gradient work must happen, and the ML framework deciding how that work will run, on an accelerator-oriented stack, one could imagine it also eventually involving intimate tinkering with runtime execution, memory allocation, device-specific kernels, and the movement of tensor data through memory, just like forward pass operations require as well! [4](#ref-4), [2](#ref-2)
 
-### Compiler Representations - High Level
+## Compiler Representations - High Level
 
 Fundamentally, operation dispatch and [execution models](https://www.tensorflow.org/guide/intro_to_graphs#graph_execution_vs_eager_execution) are related, but are separate decisions; operation dispatch selects an implementation for an operation, while execution models determine whether operations are issued immediately or captured into a larger representation.
 
@@ -230,12 +250,13 @@ These roles are distinct, but they are not mutually exclusive: some systems perf
 As we descend deeper into the abstractions, and into the compiler representation side of things — i.e., intermediate representations — it is important to note that reverse-mode autodiff does not require the representation known as [Static Single Assignment (SSA)](https://www.geeksforgeeks.org/compiler-design/static-single-assignment-with-relevant-examples/). In many compiler tasks, SSA can be useful; however, it is not a prerequisite for autodiff specifically. Micrograd is an example of this, since its reverse-mode autodiff is actually implemented via ordinary Python objects connected through the dynamic DAG rather than this compiler IR approach.[7](#ref-7)
 
 ## Conclusion
+
 To keep this article epistemically grounded, avoid scope creep, and not get too ahead of ourselves with the series of future articles succeeding this one — foundations for a much larger project — I want to conclude this piece. Already, our rudimentary instantiation of a basic forward and backward pass reveals the hidden layers of tensors, operation dispatch, compiler stuff, and autograd. Not every ML framework implements forward propagation or backpropagation the same way, with the same internal machinery.
 
 
-# References
+## References
 
-## Main References
+### Main References
 
 <a id="ref-1"></a>
 1. D. Zax, “Top Machine Learning Libraries,” *IBM Think*. [Online]. Available: <https://www.ibm.com/think/topics/machine-learning-libraries>. Accessed: Sep. 2, 2026.
@@ -252,11 +273,11 @@ To keep this article epistemically grounded, avoid scope creep, and not get too 
 <a id="ref-7"></a>
 7. A. Karpathy, “micrograd: A tiny scalar-valued autograd engine and a neural net library on top of it with PyTorch-like API,” *GitHub*. [Online]. Available: <https://github.com/karpathy/micrograd>. Accessed: Sep. 2, 2026.
 
-## Additional Sources
+### Additional Sources
 
 - T. Chen, “ML Frameworks and Abstractions,” *15-884: Machine Learning Systems*, Carnegie Mellon University, Spring 2021. [Online]. Available: <https://catalyst.cs.cmu.edu/15-884-mlsys-sp21/slides/1-MLSys-MLFrameworkAbstraction.pdf>. Accessed: Sep. 7, 2026.
 
-## In-Text Links
+### In-Text Links
 
 - [Deep learning — introductory definition](https://www.geeksforgeeks.org/deep-learning/introduction-deep-learning/)
 - [Neural network — beginner’s guide](https://www.geeksforgeeks.org/deep-learning/neural-networks-a-beginners-guide/)
