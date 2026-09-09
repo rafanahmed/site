@@ -190,7 +190,7 @@ export default function Home() {
                   , was available through a $5 sponsor on github. although
                   activision sniped that repo, it remains{" "}
                   <a
-                    href="https://github.com/rafanahmed?tab=achievements&achievement=public-sponsor"
+                    href="https://github.com/rvfvn?tab=achievements&achievement=public-sponsor"
                     target="_blank"
                     rel="noreferrer"
                     className="text-foreground underline decoration-foreground/35 underline-offset-4 transition hover:decoration-foreground"

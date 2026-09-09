@@ -8,7 +8,7 @@ export const siteConfig = {
   language: "en-us",
   url: "https://rafan.dev",
   feedPath: "/rss.xml",
-  githubUsername: "rafanahmed",
+  githubUsername: "rvfvn",
 } as const;
 
 export function siteUrl(): string {

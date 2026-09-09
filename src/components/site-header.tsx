@@ -3,7 +3,7 @@ import ThemeToggle from "@/components/theme-toggle";
 
 // links
 const links = [
-  {name: "GitHub", href: "https://github.com/rafanahmed", icon: GitHubIcon},
+  {name: "GitHub", href: "https://github.com/rvfvn", icon: GitHubIcon},
   {name: "LinkedIn", href: "https://www.linkedin.com/in/rafan-ahmed/", icon: LinkedInIcon},
   {name: "X", href: "https://x.com/rvfvn", icon: XIcon},
   {name: "YouTube", href: "https://www.youtube.com/@rafawwn", icon: YouTubeIcon},
